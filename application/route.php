@@ -12,10 +12,15 @@
 return [
     '__pattern__' => [
         'name' => '\w+',
+        'id' => '\d+',
     ],
     '[hello]'     => [
         ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
-        ':name' => ['index/hello', ['method' => 'post']],
+        ':name' => ['hello_world/hello', ['method' => 'post']],
     ],
-
+    'hello/[:name]' => 'hello_world/hello',  //默认模块就是index，可以不用另外说明模块，只用说明控制器
+    //'index' => 'index/index/index'
+    //'user/add' => 'index/user/add',
+    //'update/:id' => 'index/user/update',  //右边指向的都是函数
+    //'user/:id' => 'index/user/read',
 ];
