@@ -42,7 +42,8 @@ class User
 //            echo '----------------------------------<br/>';
 //        }
         $array = ['info' => 'ok', 'code' => 123, 'result' => $list];
-        return json($array);
+        $out = json_encode($array);
+        return $out;
     }
 
     public function update($id)
