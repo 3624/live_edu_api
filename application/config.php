@@ -158,19 +158,27 @@ return [
     // 显示错误信息
     'show_error_msg'         => false,
     // 异常处理handle类 留空使用 \think\exception\Handle
-    'exception_handle'       => '',
+    'exception_handle'       => '\app\api\exception\Http',
 
     // +----------------------------------------------------------------------
     // | 日志设置
     // +----------------------------------------------------------------------
 
-    'log'                    => [
+    /*'log'                    => [
         // 日志记录方式，内置 file socket 支持扩展
         'type'  => 'File',
         // 日志保存目录
         'path'  => LOG_PATH,
         // 日志记录级别
         'level' => [],
+    ],*/
+
+    'log' => [
+        'type' => 'socket',
+        'host' => 'localhost',
+        'show_included_files' => true,
+        'force_client_ids' => ['bobchengzy'],
+        'allow_client_ids' => ['bobchengzy'],
     ],
 
     // +----------------------------------------------------------------------
