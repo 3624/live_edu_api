@@ -9,6 +9,10 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
+use think\Route;
+Route::get('slides', 'api/slides/get_slide');
+Route::post('slides', 'api/slides/add_slide');
+
 return [
     '__pattern__' => [
         'name' => '\w+',

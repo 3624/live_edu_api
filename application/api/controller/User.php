@@ -59,7 +59,7 @@ class User extends Controller {
         }
     }
 
-    private function rtnFormat($data, $code=200, $status=true){
+    public static function rtnFormat($data, $code=200, $status=true){
         return ['code' => $code,
             'status' => $status,
             'data' => $data];
