@@ -31,7 +31,7 @@ class User extends Controller {
                 Session::set('username', $created_user->user_id);
                 Session::set('role', $created_user->role);
 
-                return json($this->rtnFormat($data));
+                return json(Funcs::rtnFormat($data));
             }else{
                 return abort(502, 'save info error');
             }
@@ -55,13 +55,9 @@ class User extends Controller {
             Session::set('username', $find_user->user_id);
             Session::set('role', $find_user->role);
 
-            return json($this->rtnFormat($data));
+            return json(Funcs::rtnFormat($data));
         }
     }
 
-    public static function rtnFormat($data, $code=200, $status=true){
-        return ['code' => $code,
-            'status' => $status,
-            'data' => $data];
-    }
+
 }

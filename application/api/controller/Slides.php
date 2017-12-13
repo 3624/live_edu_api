@@ -32,7 +32,7 @@ class Slides extends Controller{
                         'title' => $new_slide->title,
                         'imgurl' => $new_slide->img_url,
                         'videolink' => $new_slide->video_link];
-                    return json(User::rtnFormat($data));
+                    return json(Funcs::rtnFormat($data));
                 }else{
                     return abort(502, $new_slide->getError());
                 }
@@ -52,7 +52,7 @@ class Slides extends Controller{
                 $imgs[] = $slide;
             }
             $data = ['number' => count($all_slides), 'imgs' => $imgs];
-            return json(User::rtnFormat($data));
+            return json(Funcs::rtnFormat($data));
         }else{
             return abort(404, 'no data');
         }

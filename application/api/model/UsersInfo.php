@@ -14,4 +14,17 @@ class UsersInfo extends Model{
         return $rolemap[$role];
     }
 
+    public function myCreatedLives()
+    {
+        // 用户 BELONGS_TO_MANY 角色
+        return $this->belongsToMany('LiveNow', 'teachers_create_lives', 'user_id');
+    }
+
+    public function myCreatedLives_past()
+    {
+        // 用户 BELONGS_TO_MANY 角色
+        return $this->belongsToMany('LivePast', 'teachers_create_lives', 'user_id');
+    }
+
+
 }
