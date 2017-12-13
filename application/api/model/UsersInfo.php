@@ -17,13 +17,19 @@ class UsersInfo extends Model{
     public function myCreatedLives()
     {
         // 用户 BELONGS_TO_MANY 角色
-        return $this->belongsToMany('LiveNow', 'teachers_create_lives', 'user_id');
+        return $this->hasMany('LiveNow', 'owner_id', 'user_id');
     }
 
     public function myCreatedLives_past()
     {
         // 用户 BELONGS_TO_MANY 角色
-        return $this->belongsToMany('LivePast', 'teachers_create_lives', 'user_id');
+        return $this->hasMany('LivePast', 'owner_id', 'user_id');
+    }
+
+    public function myCreatedVideos()
+    {
+        // 用户 BELONGS_TO_MANY 角色
+        return $this->hasMany('Video', 'owner_id', 'user_id');
     }
 
 

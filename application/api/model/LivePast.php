@@ -13,6 +13,6 @@ use think\Model;
 class LivePast extends Model{
     protected $table = 'live_past';
     public function myCreatedTeachers(){
-        return $this->belongsToMany('UsersInfo', 'teachers_create_lives', 'room_id', 'room_id');
+        return $this->belongsTo('UsersInfo', 'owner_id');
     }
 }

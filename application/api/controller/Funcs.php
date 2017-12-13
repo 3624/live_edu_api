@@ -21,7 +21,7 @@ class Funcs{
             $rtn['data'] = $data;
         }
 
-        return $rtn;
+        return json($rtn)->send();
     }
 
     public static function getSign($params) {

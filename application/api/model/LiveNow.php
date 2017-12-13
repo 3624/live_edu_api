@@ -14,6 +14,6 @@ class LiveNow extends Model{
     protected $table = 'live_now';
     public function myCreatedTeachers(){
         // 用户 BELONGS_TO_MANY 角色
-        return $this->belongsToMany('UsersInfo', 'teachers_create_lives', 'room_id');
+        return $this->belongsTo('UsersInfo', 'owner_id');
     }
 }

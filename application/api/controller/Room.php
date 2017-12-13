@@ -11,10 +11,14 @@ namespace app\api\controller;
 
 use think\Controller;
 use app\api\model\UsersInfo as UserModel;
+use think\Session;
 
 class Room extends Controller {
-    public function buildRoom(){
+    public function build_room(){
         $post_info = $this->request->post();
+        /*dump(Session::get('username'));
+        dump(Session::get('role'));
+        dump($post_info['id']);*/
         $teacher = UserModel::get($post_info['id']);
         if($teacher == null || $teacher->role == 'student'){
             return abort(400, 'user does not exist or is not a teacher');
@@ -66,4 +70,6 @@ class Room extends Controller {
         return Funcs::rtnFormat(null);
 
     }
+
+
 }

@@ -29,4 +29,5 @@ return [
     //'user/:id' => 'index/user/read',
     'sign_up' => ['api/user/sign_up', ['method' => 'post']],
     'sign_in' => ['api/user/sign_in', ['method' => 'post']],
+    'build_room' => ['api/room/build_room', ['method' => 'post']],
 ];
