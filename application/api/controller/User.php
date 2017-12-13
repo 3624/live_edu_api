@@ -59,5 +59,42 @@ class User extends Controller {
         }
     }
 
-
+    public function my_created_lives(){
+        $post_info = $this->request->post();
+        $teacher = UserModel::get($post_info['id']);
+        if($teacher == null || $teacher->role == 'student'){
+            return abort(400, 'user does not exist or is not a teacher');
+        }
+        $my_lives = $teacher->myCreatedLives;
+        $items_per_page = $post_info['itemsPerPage'];
+        $start_index = ($post_info['currentPage'] - 1) * $items_per_page;
+        $all_count = count($my_lives);
+        if($start_index >= $all_count && $start_index != 0){
+            return abort(400, 'no data in that page');
+        }
+        $videos = array();
+        for($i = $start_index; $i < $start_index+$items_per_page && $i < $all_count; $i++){
+            $video = $my_lives[$i];
+            $videos[] = [
+                'name' => $video->title,
+                'hostName' => $teacher->real_name,
+                'info' => $video->introdution,
+                'imgUrl' => $video->preface_url,
+                'videoID' => $video->room_id,
+                'videoUrl' => $this->request->root(true).'/enter_live/'.$video->room_id,
+                'joinCode' => $video->student_code,
+                'joinCodeForTeacher' => $video->teacher_code,
+                'startTime' => $video->start_time,
+                'endTime' => $video->end_time,
+                'length' => $video->end_time - $video->start_time
+            ];
+        }
+        $data = [
+            'total' => $all_count,
+            'thisTime' => count($videos),
+            'pageNumber' => $post_info['currentPage'],
+            'videos' => $videos
+        ];
+        return Funcs::rtnFormat($data);
+    }
 }

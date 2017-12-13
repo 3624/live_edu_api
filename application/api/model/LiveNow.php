@@ -12,7 +12,7 @@ use think\Model;
 
 class LiveNow extends Model{
     protected $table = 'live_now';
-    public function myCreatedTeachers(){
+    public function myCreatedTeacher(){
         // 用户 BELONGS_TO_MANY 角色
         return $this->belongsTo('UsersInfo', 'owner_id');
     }

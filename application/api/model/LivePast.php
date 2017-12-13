@@ -12,7 +12,7 @@ use think\Model;
 
 class LivePast extends Model{
     protected $table = 'live_past';
-    public function myCreatedTeachers(){
+    public function myCreatedTeacher(){
         return $this->belongsTo('UsersInfo', 'owner_id');
     }
 }
