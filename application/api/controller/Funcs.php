@@ -51,4 +51,22 @@ class Funcs{
 
         return $result;
     }
+
+    public static function combineURL($baseURL,$keysArr){
+        $combined = $baseURL."?";
+        $valueArr = array();
+
+        foreach($keysArr as $key => $val){
+            $val = urlencode($val);
+            $valueArr[] = "$key=$val";
+        }
+
+        $keyStr = implode("&",$valueArr);
+        $combined .= ($keyStr);
+
+        return $combined;
+    }
+
+
+
 }

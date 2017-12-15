@@ -16,21 +16,22 @@ class UsersInfo extends Model{
 
     public function myCreatedLives()
     {
-        // 用户 BELONGS_TO_MANY 角色
         return $this->hasMany('LiveNow', 'owner_id', 'user_id');
     }
 
     public function myCreatedLives_past()
     {
-        // 用户 BELONGS_TO_MANY 角色
         return $this->hasMany('LivePast', 'owner_id', 'user_id');
     }
 
     public function myCreatedVideos()
     {
-        // 用户 BELONGS_TO_MANY 角色
         return $this->hasMany('Video', 'owner_id', 'user_id');
     }
 
+    public function myJoinedLives()
+    {
+        return $this->belongsToMany('LiveNow', 'users_join_lives', 'room_id', 'user_id');
+    }
 
 }

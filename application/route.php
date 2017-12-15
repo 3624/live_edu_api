@@ -30,4 +30,6 @@ return [
     'sign_up' => ['api/user/sign_up', ['method' => 'post']],
     'sign_in' => ['api/user/sign_in', ['method' => 'post']],
     'build_room' => ['api/room/build_room', ['method' => 'post']],
+    'enter/:mode/:room_id/[:role]' => ['api/room/enter_room', ['method' => 'get'], ['mode' => '(live|playback|quick)']],
+    'my_live' => ['api/user/my_created_lives', ['method' => 'post']],
 ];

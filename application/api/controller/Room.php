@@ -9,8 +9,11 @@
 namespace app\api\controller;
 
 
+use app\api\model\LiveNow;
+use app\api\model\LivePast;
 use think\Controller;
 use app\api\model\UsersInfo as UserModel;
+use think\Exception;
 use think\Session;
 
 class Room extends Controller {
@@ -72,4 +75,78 @@ class Room extends Controller {
     }
 
 
+    //进入直播或回放，通过mode区分 'live'->直播 'playback'->回放
+    public function enter_room($mode, $room_id, $role=0){
+        if(Session::has('username')){
+            $username = Session::get('username');
+            $user = UserModel::get($username);
+            $real_name = $user->real_name;
+            $user_number = $user->number;
+
+        }else{
+            $real_name = 'guest';
+            $user_number = '0';
+        }
+
+        if($role == 1){
+            if(!Session::has('username')){
+                return abort(400, 'cannot enter as a teacher before you log in');
+            }else if($user->role != 'teacher'){
+                return abort(400, 'cannot enter as a teacher when sign in as a student');
+            }
+        }
+
+
+        if($mode == 'live'){
+            $parm = [
+                'room_id' => $room_id,
+                'user_number' => $user_number,
+                'user_role' => $role,
+                'user_name' => $real_name,
+                'user_avatar' => 'https://img.qq1234.org/uploads/allimg/140426/155540J58-13.jpg'
+            ];
+            $sign = Funcs::getSign($parm);
+            $parm['sign'] = $sign;
+            $base_url = 'http://www.baijiayun.com/web/room/enter';
+            $url = Funcs::combineURL($base_url, $parm);
+            //添加观看记录
+            if($role == 0 && Session::has('username')){
+                $video = LiveNow::getByRoomId($room_id);
+                try {
+                    $user->myJoinedLives()->attach($video, ['join_time' => time()]);
+                } catch (Exception $e) {
+                    return abort(502,'add to history error'.$e->getMessage());
+                }
+            }
+            $this->redirect($url);
+        }elseif ($mode == 'playback'){
+            $playback = LivePast::getByRoomId($room_id);
+            if($playback == null){
+                $this->error('该视频没有回放:(',$this->request->root(true));
+            }else{
+                $url = $playback->play_url;
+                //添加观看记录
+                if($role == 0 && Session::has('username')){
+                    $video = LiveNow::getByRoomId($room_id);
+                    try {
+                        $user->myJoinedLives()->attach($video, ['join_time' => time()]);
+                    } catch (Exception $e) {
+                        return abort(502,'add to history error'.$e->getMessage());
+                    }
+                }
+                $this->redirect($url);
+            }
+        }elseif ($mode == 'quick'){
+            $parm = [
+                'code' => $room_id,
+                'user_name' => $real_name,
+            ];
+            $base_url = 'https://www.baijiayun.com/web/room/quickenter';
+            $url = Funcs::combineURL($base_url, $parm);
+            $this->redirect($url);
+        }
+        else{
+            return abort(400, 'mode is wrong');
+        }
+    }
 }
