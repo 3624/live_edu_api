@@ -75,7 +75,7 @@ class Room extends Controller {
     }
 
 
-    //进入直播或回放，通过mode区分 'live'->直播 'playback'->回放
+    //进入直播或回放，通过mode区分 'live'->直播 'playback'->回放 'quick'->邀请码
     public function enter_room($mode, $room_id, $role=0){
         if(Session::has('username')){
             $username = Session::get('username');

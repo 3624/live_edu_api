@@ -34,4 +34,9 @@ class UsersInfo extends Model{
         return $this->belongsToMany('LiveNow', 'users_join_lives', 'room_id', 'user_id');
     }
 
+    public function myJoinedVideos()
+    {
+        return $this->belongsToMany('Video', 'users_join_videos', 'video_id', 'user_id');
+    }
+
 }

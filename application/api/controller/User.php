@@ -10,7 +10,9 @@ namespace app\api\controller;
 use app\api\model\LiveNow;
 use app\api\model\LivePast;
 use app\api\model\UsersInfo as UserModel;
+use app\api\model\Video;
 use think\Controller;
+use think\Db;
 use think\exception\DbException;
 use think\Session;
 
@@ -105,6 +107,68 @@ class User extends Controller {
                 }
             }
         }
+    }
+
+    public function delete_operation($mode='history'){
+        $post_info = $this->request->post();
+        $user = UserModel::get($post_info['id']);
+        if($user == null){
+            return abort(400, 'user does not exist');
+        }
+        if($mode == 'history'){
+            switch ($post_info['deleteType']){
+                case 'live':
+                    $room = LiveNow::get($post_info['videoId']);
+                    if($room ==null){
+                        return abort(400, 'cannot find the live');
+                    }else{
+                        $user->myJoinedLives()->detach($room);
+                    }
+                    break;
+                case 'video':
+                    $video = Video::get($post_info['videoId']);
+                    if($video ==null){
+                        return abort(400, 'cannot find the video');
+                    }else{
+                        $user->myJoinedLives()->detach($video);
+                    }
+                    break;
+                default:
+                    return abort(400, "deleteType cannot be ".$post_info['deleteType']);
+            }
+        }elseif ($mode == 'data'){
+            if($user->role == 'student'){
+                return abort(400, 'only teacher can delete data');
+            }
+            switch ($post_info['deleteType']){
+                case 'live':
+                    $room = LiveNow::get($post_info['videoId']);
+                    if($room ==null){
+                        return abort(400, 'cannot find the live');
+                    }else{
+                        //删除所有观看记录
+                        Db::execute('delete from users_join_lives where room_id = ? ',[$post_info['videoId']]);
+                        if($room->has_playback == 1){
+                            LivePast::destroy(['room_id' => $post_info['videoId']]);
+                        }
+                        $room->delete();
+                    }
+                    break;
+                case 'video':
+                    $video = Video::get($post_info['videoId']);
+                    if($video ==null){
+                        return abort(400, 'cannot find the video');
+                    }else{
+                        //删除所有观看记录。
+                        Db::execute('delete from users_join_videos where video_id = ? ',[$post_info['videoId']]);
+                        $video->delete();
+                    }
+                    break;
+                default:
+                    return abort(400, "deleteType cannot be ".$post_info['deleteType']);
+            }
+        }
+        return Funcs::rtnFormat(null);
     }
 
     public function my_created_lives(){
