@@ -314,7 +314,7 @@ class User extends Controller {
         $this->update_playback();
         $live_now = LiveNow::all();
         switch ($post_info['videoType']){
-            case 'live_now':
+            case 'live':
                 $rt_lives = array();
                 //过滤已经结束的直播,判断结束条件是 超过结束时间 或者 拥有回放
                 foreach ($live_now as $live_item){
@@ -326,7 +326,7 @@ class User extends Controller {
                                                 $post_info['itemsPerPage'], $post_info['currentPage']);
                 return Funcs::rtnFormat($data);
                 break;
-            case 'live_past':
+            case 'playback':
                 $rt_lives = array();
                 //过滤有回放的直播
                 foreach ($live_now as $live_item){
