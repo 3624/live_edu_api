@@ -75,7 +75,9 @@ class Room extends Controller {
     }
 
 
-    //进入直播或回放，通过mode区分 'live'->直播 'playback'->回放 'quick'->邀请码
+    //进入直播或回放或点播，通过mode区分 'live'->直播 'playback'->回放 'video'->点播 'quick'->邀请码
+    //$room_id表示房间号（直播、回放）、视频号（点播）、或者邀请码（快速模式）
+    //$role表示身份，0->audience 1->lecturer
     public function enter_room($mode, $room_id, $role=0){
         if(Session::has('username')){
             $username = Session::get('username');
@@ -88,6 +90,7 @@ class Room extends Controller {
             $user_number = '0';
         }
 
+        //身份检测
         if($role == 1){
             if(!Session::has('username')){
                 return abort(400, 'cannot enter as a teacher before you log in');
@@ -144,6 +147,8 @@ class Room extends Controller {
             $base_url = 'https://www.baijiayun.com/web/room/quickenter';
             $url = Funcs::combineURL($base_url, $parm);
             $this->redirect($url);
+        }elseif ($mode == 'video'){
+            //TODO
         }
         else{
             return abort(400, 'mode is wrong');
