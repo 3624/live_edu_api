@@ -34,4 +34,5 @@ return [
     'my_live' => ['api/user/my_created_lives', ['method' => 'post']],
     'delete/[:mode]' => ['api/user/delete_operation', ['method' => 'post'], ['mode' => '(data|history)']],
     'main_page_videos' => ['api/user/main_page_videos', ['method' => 'post']],
+    'video_history' => ['api/user/video_history', ['method' => 'post']],
 ];

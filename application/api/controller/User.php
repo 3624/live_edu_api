@@ -111,6 +111,7 @@ class User extends Controller {
 
     public function delete_operation($mode='history'){
         $post_info = $this->request->post();
+        dump($post_info);
         $user = UserModel::get($post_info['id']);
         if($user == null){
             return abort(400, 'user does not exist');
@@ -300,7 +301,9 @@ class User extends Controller {
         }
         //dump('start_update');
         //首先要更新一下回放列表，才能够判断视频是否有回放。
-        $this->update_playback();
+        if(Funcs::check_fresh()){
+            $this->update_playback();
+        }
         //dump('update_ok');
         $my_lives = $teacher->myCreatedLives;
         $data = $this->get_live_datafmt($my_lives, $this->request->root(true),
@@ -310,11 +313,30 @@ class User extends Controller {
 
     public function main_page_videos(){
         $post_info = $this->request->post();
+        $base_url = $this->request->root(true);
+        return $this->get_videos($post_info, $base_url, false);
+    }
+
+    public function video_history(){
+        $post_info = $this->request->post();
+        $base_url = $this->request->root(true);
+        return $this->get_videos($post_info, $base_url, true);
+    }
+
+    private function get_videos($post_info, $base_url, $is_history){
+        if($is_history){
+            $user = UserModel::get($post_info['id']);
+            if($user == null){
+                return abort(400, 'user does not exist');
+            }
+        }
         //首先要更新一下回放列表，才能够判断视频是否有回放。
-        $this->update_playback();
-        $live_now = LiveNow::all();
+        if(Funcs::check_fresh()){
+            $this->update_playback();
+        }
         switch ($post_info['videoType']){
             case 'live':
+                $live_now = $is_history ? $user->myJoinedLives : LiveNow::all();
                 $rt_lives = array();
                 //过滤已经结束的直播,判断结束条件是 超过结束时间 或者 拥有回放
                 foreach ($live_now as $live_item){
@@ -322,11 +344,12 @@ class User extends Controller {
                         $rt_lives[] = $live_item;
                     }
                 }
-                $data = $this->get_live_datafmt($rt_lives, $this->request->root(true),
-                                                $post_info['itemsPerPage'], $post_info['currentPage']);
+                $data = $this->get_live_datafmt($rt_lives, $base_url,
+                                                $post_info['itemsPerPage'], $post_info['currentPage'], 0);
                 return Funcs::rtnFormat($data);
                 break;
             case 'playback':
+                $live_now = $is_history ? $user->myJoinedLives : LiveNow::all();
                 $rt_lives = array();
                 //过滤有回放的直播
                 foreach ($live_now as $live_item){
@@ -334,8 +357,9 @@ class User extends Controller {
                         $rt_lives[] = $live_item;
                     }
                 }
-                $data = $this->get_live_datafmt($rt_lives, $this->request->root(true),
-                    $post_info['itemsPerPage'], $post_info['currentPage'], 1);
+                //$this->request->root(true)
+                $data = $this->get_live_datafmt($rt_lives, $base_url,
+                                                $post_info['itemsPerPage'], $post_info['currentPage'], 1);
                 return Funcs::rtnFormat($data);
                 break;
 
@@ -345,7 +369,7 @@ class User extends Controller {
             default:
                 return abort(400, 'videoType cannot be'.$post_info['videoType']);
         }
-
-
     }
+
+
 }

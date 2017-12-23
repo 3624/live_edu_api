@@ -12,6 +12,7 @@ namespace app\api\controller;
 class Funcs{
     static $partner_key = 'XwDMeBpviq4VclGbGfTk9ACZq4z+c8aICRE9p4dbo+VGglzvQp4cpMju5tc2PnMBH6QrTXNcdEXnaIsi0HO2ZA==';
     static $partner_id = 37421328;
+    static $playback_fresh_file = 'fresh_time.txt';
 
     public static function rtnFormat($data, $code=200, $status=true){
         $rtn = ['code' => $code,
@@ -22,6 +23,23 @@ class Funcs{
         }
 
         return json($rtn)->send();
+    }
+
+    //检测是否需要刷新回放列表，距离上次刷新60秒后才刷新
+    public static function check_fresh(){
+        $myfile = fopen(Funcs::$playback_fresh_file, "r") or abort(502, "Unable to open fresh file!");
+        $last_fresh = (int)fgets($myfile);
+        fclose($myfile);
+        $nowtime = time();
+        if($nowtime - $last_fresh > 60){
+            $myfile = fopen(Funcs::$playback_fresh_file, "w") or abort(502, "Unable to open fresh file!");
+            $text = (string)$nowtime;
+            fwrite($myfile, $text);
+            fclose($myfile);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public static function getSign($params) {
