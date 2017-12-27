@@ -20,7 +20,18 @@ class User extends Controller {
     public function sign_up(){
         $post_info = $this->request->post();
         $check_user = UserModel::get($post_info['id']);
+        //检查数据库中是否已经有相同id的用户信息
         if($check_user == null){
+            //没有相同id的用户，则创建新用户
+            /*
+                warning：
+                    这里默认认为所有数据都是必填的，而且在前端已经做了有效性检查：
+                        1、传来的密码是进过加密的密码
+                        2、邮箱的格式已在前端检查过了。
+                    有时间的话感觉还是要在后台添加检查有效性的代码。
+
+                    另外，有时间的话或许可以另外定一个接口，用于注册的时候异步确定用户名是否存在。
+            */
             $new_user = new UserModel;
             $new_user->user_id = $post_info['id'];
             $new_user->email = $post_info['email'];
@@ -51,6 +62,7 @@ class User extends Controller {
         if($find_user == null){
             return abort(404, 'username does not exist' );
         }else if($find_user->password != $post_info['password']){
+            //登陆时传来的密码也是加密过的密码
             return abort(404, 'password error');
         }else{
             $data =['username' => $find_user->user_id,
@@ -76,7 +88,7 @@ class User extends Controller {
         $play_back_parm['sign'] = $play_back_sign;
         $url = 'https://api.baijiayun.com/openapi/playback/getList';
         $result = json_decode(Funcs::send_post($url, $play_back_parm), true);
-        if($result['code'] != 0){
+        if($result['code'] != 0){   //百家云返回的状态码为0表示成功
             abort(502, $result['msg'].'[code]:' . $result['code']);
         }
         $result_data = $result['data'];
@@ -85,7 +97,7 @@ class User extends Controller {
         foreach($list_playback as $playback){
             //dump($playback);
             if(LivePast::get($playback['video_id']) == null && $playback['status'] == 100){
-
+                //??如果直播房间已删除，则不更新回放信息到live_past中？
                 $live_now = LiveNow::get($playback['room_id']);
                 if($live_now == null){
                     continue;
@@ -111,12 +123,12 @@ class User extends Controller {
 
     public function delete_operation($mode='history'){
         $post_info = $this->request->post();
-        dump($post_info);
+        //dump($post_info); //2017年12月27日18:22:16 lhz删除，原因：不注释掉的话返回数据不合规范
         $user = UserModel::get($post_info['id']);
         if($user == null){
             return abort(400, 'user does not exist');
         }
-        if($mode == 'history'){
+        if($mode == 'history'){ //删除history相当于退出课程/视频。
             switch ($post_info['deleteType']){
                 case 'live':
                     $room = LiveNow::get($post_info['videoId']);
@@ -131,7 +143,8 @@ class User extends Controller {
                     if($video ==null){
                         return abort(400, 'cannot find the video');
                     }else{
-                        $user->myJoinedLives()->detach($video);
+                        //$user->myJoinedLives()->detach($video); //2017-12-26 21:48:35   lhz删除，应为下面那句
+                        $user->myJoinedVideos()->detach($video);
                     }
                     break;
                 default:
@@ -323,6 +336,7 @@ class User extends Controller {
         return $this->get_videos($post_info, $base_url, true);
     }
 
+    //主页 获取 直播/视频信息 和 个人中心 获取直播/视频信息 都是用这个函数来进行获取
     private function get_videos($post_info, $base_url, $is_history){
         if($is_history){
             $user = UserModel::get($post_info['id']);
