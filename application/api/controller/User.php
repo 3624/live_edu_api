@@ -16,6 +16,8 @@ use think\Db;
 use think\exception\DbException;
 use think\Session;
 
+define('APP_HOOK',true);
+
 class User extends Controller {
     public function sign_up(){
         $post_info = $this->request->post();
