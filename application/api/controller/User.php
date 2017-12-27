@@ -71,6 +71,7 @@ class User extends Controller {
             //设置session记录用户的用户名和角色
             Session::set('username', $find_user->user_id);
             Session::set('role', $find_user->role);
+            header("Access-Control-Allow-Origin: *");
 
             return json(Funcs::rtnFormat($data));
         }
