@@ -14,14 +14,14 @@ Route::get('slides', 'api/slides/get_slide');
 Route::post('slides', 'api/slides/add_slide');
 
 return [
-    '__pattern__' => [
+    /*'__pattern__' => [
         'name' => '\w+',
         'id' => '\d+',
-    ],
-    '[hello]'     => [
-        ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
-        ':name' => ['hello_world/hello', ['method' => 'post']],
-    ],
+    ],*/
+    // '[hello]'     => [
+    //     ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
+    //     ':name' => ['hello_world/hello', ['method' => 'post']],
+    // ],
     //'hello/[:name]' => 'hello_world/hello',  //默认模块就是index，可以不用另外说明模块，只用说明控制器
     //'index' => 'index/index/index'
     //'user/add' => 'index/user/add',
@@ -35,4 +35,13 @@ return [
     'delete/[:mode]' => ['api/user/delete_operation', ['method' => 'post'], ['mode' => '(data|history)']],
     'main_page_videos' => ['api/user/main_page_videos', ['method' => 'post']],
     'video_history' => ['api/user/video_history', ['method' => 'post']],
+
+    /**
+     *  以下是lhz新增
+     */
+    'upload_url' => ['api/video/upload_url', ['method' => 'post']],
+    'resume_upload_url' => ['api/video/resume_upload_url', ['method' => 'post']],
+
+    /*'video_index' => 'api/video/index',
+    'test_post' => 'api/video/test_post',*/
 ];

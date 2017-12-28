@@ -8,6 +8,7 @@ class Index extends Controller
 {
     public function index()
     {
-        abort(404, 'test error');
+    	dump("in api/index/index");
+        //abort(404, 'test error');
     }
 }

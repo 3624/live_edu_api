@@ -241,7 +241,18 @@ class User extends Controller {
         return Funcs::rtnFormat(null);
     }
 
+
     //type: 0->live 1->playback 2-> video
+    /**
+     * [get_live_datafmt description]
+     * 本函数用于将要返回的视频信息按规定格式格式化
+     * @param  [type]  $lives          [需要输出的 视频模型列表]
+     * @param  [type]  $base_url       [description]
+     * @param  [type]  $items_per_page [description]
+     * @param  [type]  $current_page   [description]
+     * @param  integer $type           [0->live 1->playback 2-> video]
+     * @return [type]                  [description]
+     */
     private function get_live_datafmt($lives, $base_url, $items_per_page, $current_page, $type=0){
         $start_index = ($current_page - 1) * $items_per_page;
         $all_count = count($lives);
@@ -296,6 +307,24 @@ class User extends Controller {
                 ];
             }elseif ($type == 2){
                 //TODO
+                /**
+                 * 以下2017-12-28 15:04:03 lhz新增
+                 */
+                $videos[] = [
+                    'name' => $video->name,
+                    'hostName' => $video->myCreatedTeacher->real_name,
+                    'info' => $video->introdution,
+                    'imgUrl' => $video->preface_url,    //可能要做一下该域为空的处理
+                    'videoID' => $video->video_id,
+                    'videoUrl' => $base_url.'/enter/video/'.$video->video_id,
+                    'create_time' => $video->create_time,
+                    'length' => $video->length, //可能要做一下该域为空的处理
+                    'status' => $video->status,
+                    'token'=> $video->token     //可能要做一下该域为空的处理
+                ];
+                /**
+                 * 以上 2017-12-28 15:04:18  lhz新增
+                 */
             }
 
         }
@@ -317,8 +346,10 @@ class User extends Controller {
         }
         //dump('start_update');
         //首先要更新一下回放列表，才能够判断视频是否有回放。
+        //2017-12-28 14:45:50  lhz新增，更新video的操作和更新playback的操作放在一起
         if(Funcs::check_fresh()){
             $this->update_playback();
+            $this->update_video();  //2017-12-28 14:46:39 lhz新增
         }
         //dump('update_ok');
         $my_lives = $teacher->myCreatedLives;
@@ -326,6 +357,33 @@ class User extends Controller {
                                         $post_info['itemsPerPage'], $post_info['currentPage']);
         return Funcs::rtnFormat($data);
     }
+
+    /**
+     * 以下2017-12-28 14:48:56 lhz新增
+     * 其实这个函数和my_created_lives()是几乎一样的，但是为了不改变原来的api，才新增一个api
+     * 可以考虑将my_created_videos和my_created_lives合并成一个api
+     */
+    public function my_created_videos()
+    {
+        $post_info = $this->request->post();
+        $teacher = UserModel::get($post_info['id']);
+        if($teacher == null || $teacher->role == 'student'){
+            return abort(400, 'user does not exist or is not a teacher');
+        }
+        //首先要更新一下视频列表，才能够判断视频是否可以播放。
+        //2017-12-28 14:45:50  lhz新增，更新video的操作和更新playback的操作放在一起
+        if(Funcs::check_fresh()){
+            $this->update_playback();
+            $this->update_video();  //2017-12-28 14:46:39 lhz新增
+        }
+        $my_videos=$teacher->myCreatedVideos;
+        $data = $this->get_live_datafmt($my_videos, $this->request->root(true),
+                                        $post_info['itemsPerPage'], $post_info['currentPage']);
+        return Funcs::rtnFormat($data);
+    }
+    /**
+     * 以上2017-12-28 14:48:56 lhz新增
+     */
 
     public function main_page_videos(){
         $post_info = $this->request->post();
@@ -339,7 +397,14 @@ class User extends Controller {
         return $this->get_videos($post_info, $base_url, true);
     }
 
-    //主页 获取 直播/视频信息 和 个人中心 获取直播/视频信息 都是用这个函数来进行获取
+    /**
+     * [get_videos description]
+     * 主页 获取 直播/视频信息 和 学生个人中心 获取直播/视频信息 都是用这个函数来进行获取
+     * @param  [type] $post_info  [description]
+     * @param  [type] $base_url   [description]
+     * @param  [type] $is_history [为true表示是在个人中心，为false表示是在主页]
+     * @return [type]             [description]
+     */
     private function get_videos($post_info, $base_url, $is_history){
         if($is_history){
             $user = UserModel::get($post_info['id']);
@@ -348,8 +413,10 @@ class User extends Controller {
             }
         }
         //首先要更新一下回放列表，才能够判断视频是否有回放。
+        //2017-12-28 14:45:50  lhz新增，更新video的操作和更新playback的操作放在一起
         if(Funcs::check_fresh()){
             $this->update_playback();
+            $this->update_video();  //2017-12-28 14:46:39 lhz新增
         }
         switch ($post_info['videoType']){
             case 'live':
@@ -382,9 +449,80 @@ class User extends Controller {
 
             case 'video ':
                 //TODO
+                /**
+                 * 以下 2017-12-28 15:36:52 lhz新加
+                 */
+                $videos_list=$is_history?$user->myJoinedVideos : Video::all(['status'=>100]);   //主页上显示的点播应该是转码成功的
+                $data = $this->get_live_datafmt($videos_list, $base_url,
+                                                $post_info['itemsPerPage'], $post_info['currentPage'], 2);
+                /**
+                 * 以上 2017-12-28 15:37:05 lhz新加
+                 */
                 break;
             default:
                 return abort(400, 'videoType cannot be'.$post_info['videoType']);
+        }
+    }
+
+    //更新video信息
+    public function update_video()
+    {
+        //只有视频的status为10或者20的时候需要更新
+        $list=Video::where('status','in',[10,20])->select();
+        dump($list);
+        $parm = [
+            'partner_id' => Funcs::$partner_id,
+            'timestamp' => time()
+        ];
+        foreach($list as $video)
+        {
+            dump($video);
+            $parm['video_id'] = $video->video_id;
+            $sign = Funcs::getSign($parm);
+            $parm['sign'] = $sign;
+            
+            //从百家云获取视频信息
+            $result_str = Funcs::send_post('https://api.baijiayun.com/openapi/video/getInfo', $parm); 
+            if($result_str == null){
+                return abort(502, 'request remote api error');
+            }
+            $result_json = json_decode($result_str, true);
+            if($result_json['code'] != 0){
+                return abort(502, $result_json['msg'].'[code]:' . $result_json['code']);
+            }
+            $result_data = $result_json['data'];
+
+            //如果status发生了改变，则要更新数据库数据
+            if($result_data['status']!=$video->status)
+            {
+                //肯定需要更新status
+                $video->status=$result_data['status'];
+
+                //如果status变为100，表示转码成功，则还需要更新length、preface_url以及token
+                if($result_data['status']==100)
+                {
+                    //先获取token
+                    $result_str2 = Funcs::send_post('https://api.baijiayun.com/openapi/video/getPlayerToken', $parm); 
+                    if($result_str2 == null){
+                        return abort(502, 'request remote api error');
+                    }
+                    $result_json2 = json_decode($result_str2, true);
+                    if($result_json2['code'] != 0){
+                        return abort(502, $result_json2['msg'].'[code]:' . $result_json2['code']);
+                    }
+                    $result_data2 = $result_json2['data'];
+
+                    //设置其他数据项
+                    $video->length=$result_data['length'];
+                    $video->preface_url=$result_data['preface_url'];
+                    $video->token=$result_data2['token'];
+                }
+
+                //执行数据库更新
+                if(!$video->save()){
+                    return abort(502, 'save info error');
+                }
+            }
         }
     }
 
