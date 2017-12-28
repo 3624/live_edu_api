@@ -27,6 +27,6 @@ return [
     'log_write'    => [],
     // 应用结束
     'app_end'      => [
-        'app\\common\\behavior\\CronRun',
+        //'app\\common\\behavior\\CronRun',
     ],
 ];
