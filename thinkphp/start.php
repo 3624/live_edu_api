@@ -15,5 +15,4 @@ namespace think;
 // 加载基础文件
 require __DIR__ . '/base.php';
 // 执行应用
-Hook::import(require APP_PATH . '/tags.php');
 App::run()->send();
