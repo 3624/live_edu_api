@@ -352,7 +352,8 @@ class User extends Controller {
         $my_lives = $teacher->myCreatedLives;
         $data = $this->get_live_datafmt($my_lives, $this->request->root(true),
                                         $post_info['itemsPerPage'], $post_info['currentPage']);
-        return Funcs::rtnFormat($data);
+        //return Funcs::rtnFormat($data); //2017-12-28 16:42:06  lhz修改，应为下面那句
+        return json(Funcs::rtnFormat($data));
     }
 
     /**
@@ -375,8 +376,8 @@ class User extends Controller {
         }
         $my_videos=$teacher->myCreatedVideos;
         $data = $this->get_live_datafmt($my_videos, $this->request->root(true),
-                                        $post_info['itemsPerPage'], $post_info['currentPage']);
-        return Funcs::rtnFormat($data);
+                                        $post_info['itemsPerPage'], $post_info['currentPage'],2);
+        return json(Funcs::rtnFormat($data));
     }
     /**
      * 以上2017-12-28 14:48:56 lhz新增
@@ -385,13 +386,15 @@ class User extends Controller {
     public function main_page_videos(){
         $post_info = $this->request->post();
         $base_url = $this->request->root(true);
-        return $this->get_videos($post_info, $base_url, false);
+        //return $this->get_videos($post_info, $base_url, false); //2017-12-28 16:47:05  lhz修改，应为下面那句
+        return json($this->get_videos($post_info, $base_url, false));
     }
 
     public function video_history(){
         $post_info = $this->request->post();
         $base_url = $this->request->root(true);
-        return $this->get_videos($post_info, $base_url, true);
+        //return $this->get_videos($post_info, $base_url, true);  //2017-12-28 16:47:05  lhz修改，应为下面那句
+        return json($this->get_videos($post_info, $base_url, true));  
     }
 
     /**
@@ -449,9 +452,11 @@ class User extends Controller {
                 /**
                  * 以下 2017-12-28 15:36:52 lhz新加
                  */
+                //echo "in video";
                 $videos_list=$is_history?$user->myJoinedVideos : Video::all(['status'=>100]);   //主页上显示的点播应该是转码成功的
                 $data = $this->get_live_datafmt($videos_list, $base_url,
                                                 $post_info['itemsPerPage'], $post_info['currentPage'], 2);
+                return Funcs::rtnFormat($data);
                 /**
                  * 以上 2017-12-28 15:37:05 lhz新加
                  */
@@ -466,7 +471,7 @@ class User extends Controller {
     {
         //只有视频的status为10或者20的时候需要更新
         $list=Video::where('status','in',[10,20])->select();
-        dump($list);
+        //dump($list);
         $parm = [
             'partner_id' => Funcs::$partner_id,
             'timestamp' => time()
@@ -499,7 +504,15 @@ class User extends Controller {
                 if($result_data['status']==100)
                 {
                     //先获取token
-                    $result_str2 = Funcs::send_post('https://api.baijiayun.com/openapi/video/getPlayerToken', $parm); 
+                    $parm2 = [
+                        'partner_id' => Funcs::$partner_id,
+                        'video_id' => $video->video_id,
+                        'expires_in' => 0,
+                        'timestamp' => time(),
+                    ];
+                    $sign2 = Funcs::getSign($parm2);
+                    $parm2['sign'] = $sign2;
+                    $result_str2 = Funcs::send_post('https://api.baijiayun.com/openapi/video/getPlayerToken', $parm2); 
                     if($result_str2 == null){
                         return abort(502, 'request remote api error');
                     }
@@ -508,11 +521,13 @@ class User extends Controller {
                         return abort(502, $result_json2['msg'].'[code]:' . $result_json2['code']);
                     }
                     $result_data2 = $result_json2['data'];
+                    dump($result_json2);
 
                     //设置其他数据项
                     $video->length=$result_data['length'];
                     $video->preface_url=$result_data['preface_url'];
                     $video->token=$result_data2['token'];
+                    dump($video);
                 }
 
                 //执行数据库更新
