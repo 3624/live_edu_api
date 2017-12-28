@@ -11,6 +11,7 @@ namespace app\api\controller;
 
 use app\api\model\LiveNow;
 use app\api\model\LivePast;
+use app\api\model\Video;
 use think\Controller;
 use app\api\model\UsersInfo as UserModel;
 use think\Exception;
@@ -149,6 +150,42 @@ class Room extends Controller {
             $this->redirect($url);
         }elseif ($mode == 'video'){
             //TODO
+            /**
+             *  以下2017-12-28 15:59:36 lhz添加
+             *  备注：由于现有的api中只规定了前端要post video_id，没规定要post token
+             *  而点播视频的观看链接由video_id和token两部分组成，所以需要访问数据库获取video_id对应token。
+             */
+            $video=Video::get($room_id);
+            if ($video==null) {
+                $this->error('点播视频id号不存在！',$this->request->root(true));
+            }
+            else{
+                if ($video->status != 100) {
+                    $this->error('该点播尚未转码成功，无法观看',$this->request->root(true));
+                }
+                else{
+                    $parm = [
+                        'vid' => $room_id,
+                        'token' => $video->token,
+                    ];
+                    $base_url='http://www.baijiayun.com/web/video/player';
+                    $url = Funcs::combineURL($base_url, $parm);
+                    //添加观看记录
+                    if($role == 0 && Session::has('username')){
+                        try {
+                            $user->myJoinedVideos()->attach($video, ['join_time' => time()]);
+                        } catch (Exception $e) {
+                            return abort(502,'add to history error'.$e->getMessage());
+                        }
+                    }
+                    $this->redirect($url);
+                }
+            }
+            
+            
+            /**
+             *  以上2017-12-28 15:59:52  lhz添加
+             */
         }
         else{
             return abort(400, 'mode is wrong');

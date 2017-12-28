@@ -41,6 +41,7 @@ return [
      */
     'upload_url' => ['api/video/upload_url', ['method' => 'post']],
     'resume_upload_url' => ['api/video/resume_upload_url', ['method' => 'post']],
+    'my_video' => ['api/user/my_created_videos', ['method' => 'post']],
 
     /*'video_index' => 'api/video/index',
     'test_post' => 'api/video/test_post',*/

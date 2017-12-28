@@ -310,7 +310,7 @@ class User extends Controller {
                 $videos[] = [
                     'name' => $video->name,
                     'hostName' => $video->myCreatedTeacher->real_name,
-                    'info' => $video->introdution,
+                    'info' => $video->introduction,
                     'imgUrl' => $video->preface_url,    //可能要做一下该域为空的处理
                     'videoID' => $video->video_id,
                     'videoUrl' => $base_url.'/enter/video/'.$video->video_id,
@@ -444,7 +444,7 @@ class User extends Controller {
                 return Funcs::rtnFormat($data);
                 break;
 
-            case 'video ':
+            case 'video':   //2017-12-28 16:22:34  这里的video原本多了个空格，导致匹配不上。
                 //TODO
                 /**
                  * 以下 2017-12-28 15:36:52 lhz新加
