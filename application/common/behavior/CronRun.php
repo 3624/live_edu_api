@@ -8,12 +8,10 @@
 
 namespace app\common\behavior;
 
-use think\Exception;
-use think\Response;
 
 class CronRun
 {
-    public function run(&$dispatch){
+    public function run(){
         $host_name = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : "*";
         header("Access-Control-Allow-Origin: $host_name");
         header("Access-Control-Allow-Credentials: true");

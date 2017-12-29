@@ -100,6 +100,9 @@ class Room extends Controller {
             }
         }
 
+        if($mode != 'live'){
+            $role = 0;
+        }
 
         if($mode == 'live'){
             $parm = [
