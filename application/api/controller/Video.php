@@ -21,7 +21,7 @@ class Video extends Controller
         /**以下新增 */
         $teacher = UserModel::get($post_info['id']);
         if($teacher == null || $teacher->role == 'student'){
-            return myAbort(400, 'user does not exist or is not a teacher');
+            return Funcs::myAbort(400, 'user does not exist or is not a teacher');
         }
         /**以上新增 */
 
@@ -39,11 +39,11 @@ class Video extends Controller
         $result_str = Funcs::send_post('https://api.baijiayun.com/openapi/video/getUploadUrl', $parm); //$result_str存的是string类型的
         //dump($result_str);
         if($result_str == null){
-            return myAbort(502, 'request remote api error');
+            return Funcs::myAbort(502, 'request remote api error');
         }
         $result_json = json_decode($result_str, true);
         if($result_json['code'] != 0){
-            return myAbort(502, $result_json['msg'].'[code]:' . $result_json['code']);
+            return Funcs::myAbort(502, $result_json['msg'].'[code]:' . $result_json['code']);
         }
         //dump($result_json);
         $result_data = $result_json['data'];
@@ -73,12 +73,12 @@ class Video extends Controller
         
         $result_str = Funcs::send_post('https://api.baijiayun.com/openapi/video/getResumeUploadUrl', $parm); //$result_str存的是string类型的
         if($result_str == null){
-            return myAbort(502, 'request remote api error');
+            return Funcs::myAbort(502, 'request remote api error');
         }
         
         $result_json = json_decode($result_str, true);
         if($result_json['code'] != 0){
-            return myAbort(502, $result_json['msg'].'[code]:' . $result_json['code']);
+            return Funcs::myAbort(502, $result_json['msg'].'[code]:' . $result_json['code']);
         }
         return json($result_json);
     }
@@ -104,12 +104,12 @@ class Video extends Controller
         $parm['sign'] = $sign;
         $result_str = Funcs::send_post('https://api.baijiayun.com/openapi/video/getPlayerToken', $parm); //$result_str存的是string类型的
         if($result_str == null){
-            return myAbort(502, 'request remote api error');
+            return Funcs::myAbort(502, 'request remote api error');
         }
         
         $result_json = json_decode($result_str, true);
         if($result_json['code'] != 0){
-            return myAbort(502, $result_json['msg'].'[code]:' . $result_json['code']);
+            return Funcs::myAbort(502, $result_json['msg'].'[code]:' . $result_json['code']);
         }
         return json($result_json);
     }
@@ -126,12 +126,12 @@ class Video extends Controller
         $parm['sign'] = $sign;
         $result_str = Funcs::send_post('https://api.baijiayun.com/openapi/video/getInfo', $parm); //$result_str存的是string类型的
         if($result_str == null){
-            return myAbort(502, 'request remote api error');
+            return Funcs::myAbort(502, 'request remote api error');
         }
         
         $result_json = json_decode($result_str, true);
         if($result_json['code'] != 0){
-            return myAbort(502, $result_json['msg'].'[code]:' . $result_json['code']);
+            return Funcs::myAbort(502, $result_json['msg'].'[code]:' . $result_json['code']);
         }
         return json($result_json);
     }
