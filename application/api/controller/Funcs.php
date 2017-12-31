@@ -27,12 +27,12 @@ class Funcs{
 
     //检测是否需要刷新回放列表，距离上次刷新60秒后才刷新
     public static function check_fresh(){
-        $myfile = fopen(Funcs::$playback_fresh_file, "r") or abort(200, "Unable to open fresh file!");
+        $myfile = fopen(Funcs::$playback_fresh_file, "r") or myAbort(502, "Unable to open fresh file!");
         $last_fresh = (int)fgets($myfile);
         fclose($myfile);
         $nowtime = time();
         if($nowtime - $last_fresh > 60){
-            $myfile = fopen(Funcs::$playback_fresh_file, "w") or abort(200, "Unable to open fresh file!");
+            $myfile = fopen(Funcs::$playback_fresh_file, "w") or myAbort(502, "Unable to open fresh file!");
             $text = (string)$nowtime;
             fwrite($myfile, $text);
             fclose($myfile);
@@ -85,6 +85,14 @@ class Funcs{
         return $combined;
     }
 
+    public static function myAbort($code, $msg){
+        $out = [
+            'code' => $code,
+            'status' => false,
+            'error' => $msg,
+        ];
+        return json($out);
+    }
 
 
 }
