@@ -11,8 +11,6 @@ class Index extends Controller
 {
     public function index()
     {
-        Db::execute('insert into think_data (id, name ,status) values (?, ?, ?)', [8, 'thinkphp', 1]);
-        $result = Db::query('select * from think_data where id = ?', [8]);
-        dump($result);
+        dump('ok');
     }
 }
