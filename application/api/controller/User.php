@@ -49,10 +49,10 @@ class User extends Controller {
 
                 return json(Funcs::rtnFormat($data));
             }else{
-                return abort(502, 'save info error');
+                return myAbort(502, 'save info error');
             }
         }else{
-            return abort(404, 'username has existed');
+            return myAbort(404, 'username has existed');
         }
     }
 
@@ -60,10 +60,10 @@ class User extends Controller {
         $post_info = $this->request->post();
         $find_user = UserModel::get($post_info['id']);
         if($find_user == null){
-            return abort(404, 'username does not exist' );
+            return myAbort(404, 'username does not exist' );
         }else if($find_user->password != $post_info['password']){
             //登陆时传来的密码也是加密过的密码
-            return abort(404, 'password error');
+            return myAbort(404, 'password error');
         }else{
             $data =['username' => $find_user->user_id,
                 'realname' => $find_user->real_name,
@@ -89,7 +89,7 @@ class User extends Controller {
         $url = 'https://api.baijiayun.com/openapi/playback/getList';
         $result = json_decode(Funcs::send_post($url, $play_back_parm), true);
         if($result['code'] != 0){   //百家云返回的状态码为0表示成功
-            abort(502, $result['msg'].'[code]:' . $result['code']);
+            myAbort(502, $result['msg'].'[code]:' . $result['code']);
         }
         $result_data = $result['data'];
         //dump($result_data);
@@ -115,7 +115,7 @@ class User extends Controller {
                 $live_past->owner_id = $live_now->owner_id;
                 $live_now->has_playback = 1;
                 if(!$live_now->save() || !$live_past->save()){
-                    abort(502, $live_now->getError() . $live_past->getError());
+                    myAbort(502, $live_now->getError() . $live_past->getError());
                 }
             }
         }
@@ -126,14 +126,14 @@ class User extends Controller {
         //dump($post_info); //2017年12月27日18:22:16 lhz删除，原因：不注释掉的话返回数据不合规范
         $user = UserModel::get($post_info['id']);
         if($user == null){
-            return abort(400, 'user does not exist');
+            return myAbort(400, 'user does not exist');
         }
         if($mode == 'history'){ //删除history相当于退出课程/视频。
             switch ($post_info['deleteType']){
                 case 'live':
                     $room = LiveNow::get($post_info['videoId']);
                     if($room ==null){
-                        return abort(400, 'cannot find the live');
+                        return myAbort(400, 'cannot find the live');
                     }else{
                         $user->myJoinedLives()->detach($room);
                     }
@@ -141,24 +141,24 @@ class User extends Controller {
                 case 'video':
                     $video = Video::get($post_info['videoId']);
                     if($video ==null){
-                        return abort(400, 'cannot find the video');
+                        return myAbort(400, 'cannot find the video');
                     }else{
                         //$user->myJoinedLives()->detach($video); //2017-12-26 21:48:35   lhz删除，应为下面那句
                         $user->myJoinedVideos()->detach($video);
                     }
                     break;
                 default:
-                    return abort(400, "deleteType cannot be ".$post_info['deleteType']);
+                    return myAbort(400, "deleteType cannot be ".$post_info['deleteType']);
             }
         }elseif ($mode == 'data'){
             if($user->role == 'student'){
-                return abort(400, 'only teacher can delete data');
+                return myAbort(400, 'only teacher can delete data');
             }
             switch ($post_info['deleteType']){
                 case 'live':
                     $room = LiveNow::get($post_info['videoId']);
                     if($room ==null){
-                        return abort(400, 'cannot find the live');
+                        return myAbort(400, 'cannot find the live');
                     }else{
                         //删除所有观看记录
                         Db::execute('delete from users_join_lives where room_id = ? ',[$post_info['videoId']]);
@@ -175,11 +175,11 @@ class User extends Controller {
                             $parm['sign'] = $sign;
                             $result_str = Funcs::send_post('https://api.baijiayun.com/openapi/video/delete', $parm);
                             if($result_str == null){
-                                return abort(502, 'request remote api error');
+                                return myAbort(502, 'request remote api error');
                             }
                             $result_json = json_decode($result_str, true);
                             if($result_json['code'] != 0){
-                                return abort(502, $result_json['msg'].'[code]:' . $result_json['code']);
+                                return myAbort(502, $result_json['msg'].'[code]:' . $result_json['code']);
                             }
                             //删除本地数据
                             $playback->delete();
@@ -194,11 +194,11 @@ class User extends Controller {
                         $parm['sign'] = $sign;
                         $result_str = Funcs::send_post('https://api.baijiayun.com/openapi/room/delete', $parm);
                         if($result_str == null){
-                            return abort(502, 'request remote api error');
+                            return myAbort(502, 'request remote api error');
                         }
                         $result_json = json_decode($result_str, true);
                         if($result_json['code'] != 0){
-                            return abort(502, $result_json['msg'].'[code]:' . $result_json['code']);
+                            return myAbort(502, $result_json['msg'].'[code]:' . $result_json['code']);
                         }
                         //删除本地的数据
                         $room->delete();
@@ -207,7 +207,7 @@ class User extends Controller {
                 case 'video':
                     $video = Video::get($post_info['videoId']);
                     if($video ==null){
-                        return abort(400, 'cannot find the video');
+                        return myAbort(400, 'cannot find the video');
                     }else{
                         //删除所有观看记录。
                         Db::execute('delete from users_join_videos where video_id = ? ',[$post_info['videoId']]);
@@ -221,18 +221,18 @@ class User extends Controller {
                         $parm['sign'] = $sign;
                         $result_str = Funcs::send_post('https://api.baijiayun.com/openapi/video/delete', $parm);
                         if($result_str == null){
-                            return abort(502, 'request remote api error');
+                            return myAbort(502, 'request remote api error');
                         }
                         $result_json = json_decode($result_str, true);
                         if($result_json['code'] != 0){
-                            return abort(502, $result_json['msg'].'[code]:' . $result_json['code']);
+                            return myAbort(502, $result_json['msg'].'[code]:' . $result_json['code']);
                         }
                         //删除本地的数据
                         $video->delete();
                     }
                     break;
                 default:
-                    return abort(400, "deleteType cannot be ".$post_info['deleteType']);
+                    return myAbort(400, "deleteType cannot be ".$post_info['deleteType']);
             }
         }
         return Funcs::rtnFormat(null);
@@ -254,7 +254,7 @@ class User extends Controller {
         $start_index = ($current_page - 1) * $items_per_page;
         $all_count = count($lives);
         /*if($start_index >= $all_count && $start_index != 0){
-            return abort(400, 'no data in that page');
+            return myAbort(400, 'no data in that page');
         }*/
         $videos = array();
         //dump($videos);
@@ -287,7 +287,7 @@ class User extends Controller {
             }elseif ($type == 1){
                 $playback = LivePast::getByRoomId($video->room_id);
                 if($playback == null){
-                    return abort(400, 'playback not found');
+                    return myAbort(400, 'playback not found');
                 }
                 $videos[] = [
                     'name' => $video->title,
@@ -339,7 +339,7 @@ class User extends Controller {
         $post_info = $this->request->post();
         $teacher = UserModel::get($post_info['id']);
         if($teacher == null || $teacher->role == 'student'){
-            return abort(400, 'user does not exist or is not a teacher');
+            return myAbort(400, 'user does not exist or is not a teacher');
         }
         //dump('start_update');
         //首先要更新一下回放列表，才能够判断视频是否有回放。
@@ -366,7 +366,7 @@ class User extends Controller {
         $post_info = $this->request->post();
         $teacher = UserModel::get($post_info['id']);
         if($teacher == null || $teacher->role == 'student'){
-            return abort(400, 'user does not exist or is not a teacher');
+            return myAbort(400, 'user does not exist or is not a teacher');
         }
         //首先要更新一下视频列表，才能够判断视频是否可以播放。
         //2017-12-28 14:45:50  lhz新增，更新video的操作和更新playback的操作放在一起
@@ -409,7 +409,7 @@ class User extends Controller {
         if($is_history){
             $user = UserModel::get($post_info['id']);
             if($user == null){
-                return abort(400, 'user does not exist');
+                return myAbort(400, 'user does not exist');
             }
         }
         //首先要更新一下回放列表，才能够判断视频是否有回放。
@@ -462,7 +462,7 @@ class User extends Controller {
                  */
                 break;
             default:
-                return abort(400, 'videoType cannot be'.$post_info['videoType']);
+                return myAbort(400, 'videoType cannot be'.$post_info['videoType']);
         }
     }
 
@@ -486,11 +486,11 @@ class User extends Controller {
             //从百家云获取视频信息
             $result_str = Funcs::send_post('https://api.baijiayun.com/openapi/video/getInfo', $parm); 
             if($result_str == null){
-                return abort(502, 'request remote api error');
+                return myAbort(502, 'request remote api error');
             }
             $result_json = json_decode($result_str, true);
             if($result_json['code'] != 0){
-                return abort(502, $result_json['msg'].'[code]:' . $result_json['code']);
+                return myAbort(502, $result_json['msg'].'[code]:' . $result_json['code']);
             }
             $result_data = $result_json['data'];
 
@@ -514,11 +514,11 @@ class User extends Controller {
                     $parm2['sign'] = $sign2;
                     $result_str2 = Funcs::send_post('https://api.baijiayun.com/openapi/video/getPlayerToken', $parm2); 
                     if($result_str2 == null){
-                        return abort(502, 'request remote api error');
+                        return myAbort(502, 'request remote api error');
                     }
                     $result_json2 = json_decode($result_str2, true);
                     if($result_json2['code'] != 0){
-                        return abort(502, $result_json2['msg'].'[code]:' . $result_json2['code']);
+                        return myAbort(502, $result_json2['msg'].'[code]:' . $result_json2['code']);
                     }
                     $result_data2 = $result_json2['data'];
                     dump($result_json2);
@@ -532,7 +532,7 @@ class User extends Controller {
 
                 //执行数据库更新
                 if(!$video->save()){
-                    return abort(502, 'save info error');
+                    return myAbort(502, 'save info error');
                 }
             }
         }
