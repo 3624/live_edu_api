@@ -17,7 +17,7 @@ class Slides extends Controller{
         $result = $this->validate(['file' => $file], ['file'=>'require|image'],
             ['file.require' => 'choose image file', 'file.image' => 'not an image']);
         if(true !== $result){
-            return abort(400, $result);
+            return abort(200, $result);
         }else{
             $info = $file->rule('md5')->move(ROOT_PATH . 'public' . DS . 'static'.DS.'slides');
             if($info){
@@ -34,10 +34,10 @@ class Slides extends Controller{
                         'videolink' => $new_slide->video_link];
                     return json(Funcs::rtnFormat($data));
                 }else{
-                    return abort(502, $new_slide->getError());
+                    return abort(200, $new_slide->getError());
                 }
             }else{
-                return abort(502, $info->getError());
+                return abort(200, $info->getError());
             }
         }
     }
@@ -54,7 +54,7 @@ class Slides extends Controller{
             $data = ['number' => count($all_slides), 'imgs' => $imgs];
             return json(Funcs::rtnFormat($data));
         }else{
-            return abort(404, 'no data');
+            return abort(200, 'no data');
         }
     }
 }

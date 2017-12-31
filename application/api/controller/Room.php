@@ -25,19 +25,19 @@ class Room extends Controller {
         dump($post_info['id']);*/
         $teacher = UserModel::get($post_info['id']);
         if($teacher == null || $teacher->role == 'student'){
-            return abort(400, 'user does not exist or is not a teacher');
+            return abort(200, 'user does not exist or is not a teacher');
         }
         $file = $this->request->file('image');
         $image_check = $this->validate(['file' => $file], ['file'=>'require|image'],
             ['file.require' => 'choose image file', 'file.image' => 'not an image']);
         if(true !== $image_check){
-            return abort(400, $image_check);
+            return abort(200, $image_check);
         }
         $info = $file->rule('md5')->move(ROOT_PATH . 'public' . DS . 'static'.DS.'covers');
         if($info){
             $image_url = $this->request->root(true) . '/static/covers/' . $info->getSaveName();
         }else{
-            return abort(502, $info->getError());
+            return abort(200, $info->getError());
         }
         $parm = [
             'partner_id' => Funcs::$partner_id,
@@ -53,11 +53,11 @@ class Room extends Controller {
         $parm['sign'] = $sign;
         $result_str = Funcs::send_post('https://api.baijiayun.com/openapi/room/create', $parm);
         if($result_str == null){
-            return abort(502, 'request remote api error');
+            return abort(200, 'request remote api error');
         }
         $result_json = json_decode($result_str, true);
         if($result_json['code'] != 0){
-            return abort(502, $result_json['msg'].'[code]:' . $result_json['code']);
+            return abort(200, $result_json['msg'].'[code]:' . $result_json['code']);
         }
         $result_data = $result_json['data'];
         $teacher->myCreatedLives()->save([
@@ -94,9 +94,9 @@ class Room extends Controller {
         //身份检测
         if($role == 1){
             if(!Session::has('username')){
-                return abort(400, 'cannot enter as a teacher before you log in');
+                return abort(200, 'cannot enter as a teacher before you log in');
             }else if($user->role != 'teacher'){
-                return abort(400, 'cannot enter as a teacher when sign in as a student');
+                return abort(200, 'cannot enter as a teacher when sign in as a student');
             }
         }
 
@@ -122,7 +122,7 @@ class Room extends Controller {
                 try {
                     $user->myJoinedLives()->attach($video, ['join_time' => time()]);
                 } catch (Exception $e) {
-                    return abort(502,'add to history error'.$e->getMessage());
+                    return abort(200,'add to history error'.$e->getMessage());
                 }
             }
             $this->redirect($url);
@@ -138,7 +138,7 @@ class Room extends Controller {
                     try {
                         $user->myJoinedLives()->attach($video, ['join_time' => time()]);
                     } catch (Exception $e) {
-                        return abort(502,'add to history error'.$e->getMessage());
+                        return abort(200,'add to history error'.$e->getMessage());
                     }
                 }
                 $this->redirect($url);
@@ -178,7 +178,7 @@ class Room extends Controller {
                         try {
                             $user->myJoinedVideos()->attach($video, ['join_time' => time()]);
                         } catch (Exception $e) {
-                            return abort(502,'add to history error'.$e->getMessage());
+                            return abort(200,'add to history error'.$e->getMessage());
                         }
                     }
                     $this->redirect($url);
@@ -191,7 +191,7 @@ class Room extends Controller {
              */
         }
         else{
-            return abort(400, 'mode is wrong');
+            return abort(200, 'mode is wrong');
         }
     }
 }
