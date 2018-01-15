@@ -428,15 +428,21 @@
                 var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
                 var m = (date.getMinutes() <10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
                 var s = (date.getSeconds() <10 ? '0' + date.getSeconds() : date.getSeconds());
-                return h+m+s;
+                return Y+M+D+h+m+s;
             }
+			var h=Math.floor(dataObj[i].length/3600);
+			var m=Math.floor((dataObj[i].length-3600*h)/60);
+			var s=dataObj[i].length-3600*h-60*m;
+			var out = h+':'+m+':'+s;
 				var livelist = {
 				address: dataObj[i].videoUrl,
 				picture: dataObj[i].imgUrl,
 				name:dataObj[i].name,
 				hostname: dataObj[i].hostName,
 				describe: dataObj[i].info,
-				lengthtime: timetrans(dataObj[i].length)
+        emdtime: timetrans(dataObj[i].startTime),
+				starttime:timetrans(dataObj[i].endTime),
+				lengthtime:out
 			};
 			var list = videoList.list;
 			list.push(livelist);
@@ -547,28 +553,20 @@
 	};go2();
 });
 	util.ready(function(){
-	 
-		var createliveElement = function(videoList,dataObj,i){
-            var timestamp = Date.parse(new Date())/1000;
-            //console.log(timestamp);
-            var state;
-            function timetrans(date){
-                var date = new Date(date*1000);//如果date为13位不需要乘1000
-                var Y = date.getFullYear() + '-';
-                var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-                var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
-                var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
-                var m = (date.getMinutes() <10 ? '0' + date.getMinutes() : date.getMinutes())+ ':';
-                var s = (date.getSeconds() <10 ? '0' + date.getSeconds() : date.getSeconds());
-                return h+m+s;
-            }
+	 	var createliveElement = function(videoList,dataObj,i){
+			//var date = new Date(date*1000);//如果date为13位不需要乘1000
+			var h=Math.floor(dataObj[i].length/3600);
+			var m=Math.floor((dataObj[i].length-3600*h)/60);
+			var s=dataObj[i].length-3600*h-60*m;
+			var out = h+':'+m+':'+s;
+	
 				var livelist = {
 				address: dataObj[i].videoUrl,
 				picture: dataObj[i].imgUrl,
 				name:dataObj[i].name,
 				hostname: dataObj[i].hostName,
 				describe: dataObj[i].info,
-				lengthtime: timetrans(dataObj[i].length)
+				lengthtime: out
 			};
 			var list = videoList.list;
 			list.push(livelist);
@@ -680,12 +678,12 @@
 });
 })();
 function logout(){
+    sessionStorage.clear();
     var ui =document.getElementById("hello");
     ui.style.display="none";
     var u1 =document.getElementById("zhuce2");
     u1.style.display="";
     var u2 =document.getElementById("denglu2");
     u2.style.display="";
-    sessionStorage.clear();
 }
 
