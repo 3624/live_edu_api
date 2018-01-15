@@ -8,6 +8,10 @@ $(document).ready(function(){
 	//var usrName = "jiarenqi";
 	var identity =sessionStorage.getItem("localIdentify");
 	var usrName = sessionStorage.getItem("localName");
+	if(usrName == null){
+		alert("您还没有登录，将跳转到主页。");
+        window.location.href="/";
+	}
 	var helloContent ='<li><a    href="/" id="usrHello" >你好，'+usrName+'</a></li>';
 	$("#usrHello").html(helloContent);
 
@@ -62,7 +66,7 @@ $(document).ready(function(){
 	var createCourseElement = function(ctype,videoList,dataObj,i){
 		var timestamp = Date.parse(new Date())/1000;
 		console.log(timestamp);
-		var state;
+		var state, videostat;
 		function timetrans(date){
 			var date = new Date(date*1000);//如果date为13位不需要乘1000
 			var Y = date.getFullYear() + '-';
@@ -81,14 +85,38 @@ $(document).ready(function(){
 		}			
 		else if(timestamp > dataObj[i].endTime){
 			state = "已结束";
-		}	
+		}
+		switch (dataObj[i].status){
+			case 100:
+				videostat = "可观看";
+				break;
+			case 20:
+                videostat = "转码中";
+                break;
+            case 30:
+                videostat = "转码失败";
+                break;
+            case 31:
+                videostat = "转码超时";
+                break;
+            case 32:
+                videostat = "上传超时 ";
+                break;
+            case 10:
+                videostat = "上传中";
+                break;
+		}
 		if(ctype==50 || ctype==30){
+			var imgurl = dataObj[i].imgUrl;
+			if(imgurl == null){
+				imgurl = "http://bpic.588ku.com/element_origin_min_pic/01/35/36/78573bdff36d868.jpg";
+			}
 			var videoEl = {
 			videoUrl: dataObj[i].videoUrl,
-			picture: dataObj[i].imgUrl,
+			picture:imgurl,
 			name: dataObj[i].name,
-			hostName: "主讲人："+ dataObj[i].hostName,
-		    classState:"可观看",
+			hostName: "上传者："+ dataObj[i].hostName,
+		    classState: videostat,
 			describe: dataObj[i].info,
 			startTime: "",
 			endTime:"",

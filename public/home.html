@@ -173,16 +173,16 @@
 						<script type="text/html" id="template-courselist">
 						{{each list}}
 						 <li>
-							<a target="_blank" href="{{$value.videoUrl}}">							
-								<img class="logo"  src="{{$value.picture}}" alt="">	
+							<a target="_blank" href="{{$value.videoUrl}}">
+								<div class="div_img"><img class="logo"  src="{{$value.picture}}" alt=""></div>
 								<div class="infoarea">			
 									<h1 class="tt">{{$value.name}}</h1>
 									<h1 class="writer">课程简介：{{$value.describe}}</h1>
 									<h2 class="writer">{{$value.hostName}}</h2>
 									<p class="price">{{$value.classState}}</p>
 									<p class="price">{{$value.startTime}}</p>
-									<p class="price">{{$value.endTime}}</p>	
-								</div>	
+									<p class="price">{{$value.endTime}}</p>
+								</div>
 							</a>
 						</li>
 						{{/each}}
@@ -279,8 +279,8 @@
 							<input type="datetime-local" placeholder="开始时间" id="beginTime" class="videoInput">
 							<h3 class="c-etime">结束时间</h3>
 							<input type="datetime-local" placeholder="结束时间" id="endTime" class="videoInput">
-							<h3 class="c-file">上传课程封面图片文件 </h3>
-							<div class="button upload-wrapper add-file-button">
+							<h3 class="c-file" style="display: inline;">上传课程封面图片文件 </h3>
+							<div class="button upload-wrapper add-file-button" style="display: inline;">
 								<input type="file" id="classPic" name="file">
 								上传
 							</div>
@@ -292,7 +292,7 @@
 								<label><input name="classTypeName" type="radio" value="互动小班课" />互动小班课 </label> </br>
 							</div-->
 							<br>
-							<input type="button" value="提交" class="searchBtn2" id="createRoomSubmit" ></a>		
+							<a><div class="button" id="createRoomSubmit" style="width: 175px; text-align: center; margin-top: 20px"> 提交</div></a>
 						</div>
 					</div>
 					<div class="b-20" id="blank_2"></div>
@@ -309,7 +309,7 @@
 						<div class="tt">
 							<h1>上传视频</h1>
 						</div>
-						<div class="bd">
+						<div class="bd" style="height: 180px">
 							<div class="bjy-demo">
 								<label>请输入视频标题（必填）：</label></br>
 								<input type="text" id="name" class="videoInput"></br>
@@ -410,38 +410,38 @@
 	<div class="g-ft">
 		<!-- ft -->
 		<div class="m-ft g-box">
-				<div class="wrap">
-					<div class="logoinfo">
-						<img src="/static/images/icons/netnease-edu-logo.png">
-						<p class="beian">©2014 icourse163.org 浙ICP备08114786号-1</p>
-						<p class="beian2">icourses.cn 京ICP备12020869号-2 京公网安备110102000459-2</p>
-					</div>
-					<div class="info info-1">
-						<h2>友情链接：</h2>
-						<ul>
-							<li><a href="http://open.163.com/" target="view_window" >网易公开课</a></li>
-							<li><a href="http://study.163.com/" target="view_window" >网易云课堂</a></li>
-							<li><a href="http://www.icourse163.org/" target="view_window" >中国大学MOOC</a></li>
-						</ul>
-					</div>
+				<!--<div class="wrap">-->
+					<!--<div class="logoinfo">-->
+						<!--<img src="/static/images/icons/netnease-edu-logo.png">-->
+						<!--<p class="beian">©2014 icourse163.org 浙ICP备08114786号-1</p>-->
+						<!--<p class="beian2">icourses.cn 京ICP备12020869号-2 京公网安备110102000459-2</p>-->
+					<!--</div>-->
+					<!--<div class="info info-1">-->
+						<!--<h2>友情链接：</h2>-->
+						<!--<ul>-->
+							<!--<li><a href="http://open.163.com/" target="view_window" >网易公开课</a></li>-->
+							<!--<li><a href="http://study.163.com/" target="view_window" >网易云课堂</a></li>-->
+							<!--<li><a href="http://www.icourse163.org/" target="view_window" >中国大学MOOC</a></li>-->
+						<!--</ul>-->
+					<!--</div>-->
 
-					<div class="info info-2">
-						<h2>我们：</h2>
-						<ul>
-							<li><a href="#">关于</a></li>
-							<li><a href="#">联系</a></li>
-							<li class="weibo"><a href="#">关注</a></li>
-						</ul>
-					</div>
+					<!--<div class="info info-2">-->
+						<!--<h2>我们：</h2>-->
+						<!--<ul>-->
+							<!--<li><a href="#">关于</a></li>-->
+							<!--<li><a href="#">联系</a></li>-->
+							<!--<li class="weibo"><a href="#">关注</a></li>-->
+						<!--</ul>-->
+					<!--</div>-->
 
-					<div class="info info-3">
-						<h2>更多：</h2>
-						<ul>
-							<li><a href="#">常见问题</a></li>
-							<li><a href="#">意见反馈</a></li>
-						</ul>
-					</div>
-				</div>
+					<!--<div class="info info-3">-->
+						<!--<h2>更多：</h2>-->
+						<!--<ul>-->
+							<!--<li><a href="#">常见问题</a></li>-->
+							<!--<li><a href="#">意见反馈</a></li>-->
+						<!--</ul>-->
+					<!--</div>-->
+				<!--</div>-->
 		</div>
 		<!-- /ft -->		
 	</div>

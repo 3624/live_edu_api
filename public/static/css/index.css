@@ -268,9 +268,17 @@
 	margin:10px 5px;
 
 }
-.m-coursebd .courselist li .logo{
+/*.m-coursebd .courselist li .logo{*/
+	/*width: 221px;*/
+	/*height: 123px;*/
+/*}*/
+.m-coursebd .courselist li .div_img{
 	width: 221px;
 	height: 123px;
+	overflow: hidden;
+}
+.m-coursebd .courselist li .logo{
+	width: 221px;
 }
 .m-coursebd .courselist li .tt{
 	overflow: hidden;
@@ -399,8 +407,7 @@
    module:ft
 ============================================================================ */
 .m-ft{
-	height: 100px;
-    padding: 80px 0px;
+    padding: 50px 0px;
 	color: #a2a4a5;
 	font-size: 12.5px;
 
@@ -661,7 +668,7 @@ text-decoration:underline;
         -webkit-border-radius: 5px;  
         -moz-border-radius: 5px;  
         -khtml-border-radius: 5px;  
-        width: 120px; 
+        width: 180px;
 		height: 20px;
         margin: 2px 5px;  
         outline: 0 none;

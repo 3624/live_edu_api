@@ -1,6 +1,7 @@
 //7.右侧功能区
 //var identity="teacher";
 var identity =sessionStorage.getItem("localIdentify");
+var usrName = sessionStorage.getItem("localName");
 //学生和老师加入房间
 $(document).ready(function(){
 	var loginRoomSubmit = $("#loginRoomSubmit");
@@ -76,7 +77,7 @@ window.onload=function abe(){
 			console.log(classType);
 			console.log(maxStu);
 			var fd = new FormData();    
-			fd.append( 'id', 'jiarenqi');
+			fd.append( 'id', usrName);
 			fd.append( 'title', className);
 			fd.append( 'introduction', classIntro);
 			fd.append( 'stratTimeStamp', beginUTCTime);
@@ -94,8 +95,13 @@ window.onload=function abe(){
 					withCredentials: true, //用来开启cookies
 				},
 				//请求成功的回调函数，result数据类型已经是json对象，处理的时候按照处理json对象的方法获取里面的数值
-				success: function(){
-					alert('提交成功');
+				success: function(result){
+				    if(result.status === true){
+                        alert('提交成功');
+                    }else{
+				        alert('提交失败:' + result.error);
+                    }
+
 				},
 				error:function(){     
 					alert('未提交成功');
@@ -120,7 +126,7 @@ window.onload=function abe(){
 						
 						//其他要post的参数也是用类似的方法弄进来,下面可以自己加
 						introduction:$("#introduction").val(),  //点播视频的简介
-						id:'jiarenqi'	//这里要改，改为当前用户的ID
+						id:usrName	//这里要改，改为当前用户的ID
                     }
                 })
                 .then(function (response) {
