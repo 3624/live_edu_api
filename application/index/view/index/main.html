@@ -1,0 +1,369 @@
+<html lang="cn">
+<head>
+	  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	  <title>直播云课堂</title>	
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no, maximum-scale=1.0">
+	  <link rel="stylesheet" type="text/css" href="/static/css1/global.css">
+	  <link rel="stylesheet" type="text/css" href="/static/css1/index.css">
+      <link rel="stylesheet" type="text/css" href="/static/css1/muke.css">
+	  <link rel="stylesheet" href="/static/css1/bootstrap.css">
+   	  <script src="/static/js/jquery.js"></script>
+      <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="/static/js/jquery.SuperSlide.2.1.1.js"></script>
+      <script src="/static/js/template-web.js"></script>
+      <link rel="stylesheet" href="/static/css1/qunit-1.11.0.css">
+      <script src="/static/js/bootstrap-paginator.min.js" type="text/javascript"></script>
+      <script src="/static/js/bootstrapv3.js" type="text/javascript"></script>
+    
+          
+     
+  
+<body>
+	<!-- 注册窗口 -->
+    <div id="register" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-title">
+                    <h1 class="text-center">注册</h1>
+                </div>
+                <div class="modal-body">
+                    <form class="form-group" action="" >
+                            <div class="form-group">
+                                <label for="">用户名</label>
+                                <input class="form-control" type="text" placeholder="6-15位字母或数字" id="registerUserName">
+                            </div>
+                            <div class="form-group">
+                                <label for="">真实姓名</label>
+                                <input class="form-control" type="text" placeholder="6-15位字母或数字" id="registerRealName">
+                            </div>
+                            <div class="form-group">
+                                <label for="">密码</label>
+                                <input class="form-control" type="password" placeholder="至少6位字母或数字" id="registerPassword">
+                            </div>
+                            <!-- <div class="form-group">
+                                <label for="">再次输入密码</label>
+                                <input class="form-control" type="password" placeholder="至少6位字母或数字" id="registerPassword2">
+                            </div> -->
+                            <div class="form-group">
+                                <label for="">邮箱</label>
+                                <input class="form-control" type="email" placeholder="例如:123@123.com" id="registerEmail">
+                            </div>
+                            <div class="form-group">
+                                <label for="">注册身份</label><span>&nbsp&nbsp&nbsp</span>
+                                <form action="" method="get">
+                                <label><input name="identify" type="radio" value="student" checked="true"id="id1"/>学生</label>
+                                <span>&nbsp&nbsp&nbsp&nbsp</span>
+                                <label><input name="identify" type="radio" value="teacher" id="id2"/>教师</label>
+                                </form>
+                            </div>
+                            <div class="text-right">
+                                <button class="btn btn-primary" type="submit" id="registerSubmit">提交</button>
+                                <button class="btn btn-danger" data-dismiss="modal">取消</button>
+                            </div>
+                            <a href="" data-toggle="modal" data-dismiss="modal" data-target="#login">已有账号？点我登录</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 登录窗口 -->
+    <div id="login" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-title">
+                    <h1 class="text-center">登录</h1>
+                </div>
+                <div class="modal-body">
+                    <form class="form-group" action="">
+                            <div class="form-group">
+                                <label for="">用户名</label>
+                                <input class="form-control" type="text" placeholder="" id="loginUserName">
+                            </div>
+                            <div class="form-group">
+                                <label for="">密码</label>
+                                <input class="form-control" type="password" placeholder="" id="loginPassword">
+                            </div>
+                            <div class="text-right">
+                                <button class="btn btn-primary" type="submit" id="loginSubmit">登录</button>
+                                <button class="btn btn-danger" data-dismiss="modal">取消</button>
+                            </div>
+                            <a href="" data-toggle="modal" data-dismiss="modal" data-target="#register">还没有账号？点我注册</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<!-- top -->
+	<div class="g-hd">
+		<div class="g-box m-top">
+			<div class="f-fl">
+				<img class="f-fl" src="/static/images/icons/netnease-edu-logo-black.png">
+
+			</div>
+			<ul class="nav f-fr" id="zhuce2">
+				<li class="netease"><a data-toggle="modal" data-target="#register" href="">注册</a></li>
+
+			</ul>
+            <ul class="nav f-fr" id="hello">
+                <li class="netease"><a target='_blank' data-toggle="modal" href="" id="home" href="javascript:" onClick="window.open('home.html')"></a></li>
+            </ul>
+			<ul class="nav f-fr" id="denglu2">
+				<li class="netease"><a data-toggle="modal" data-target="#login" href="" > 登录</a>
+			</ul>	
+				
+		</div>
+	</div>
+	
+<div class="width100 float_l height400 img_backg1">
+	
+</div>
+
+<!-- 轮播图 -->
+
+<div class="width100 float_l margin_t-405 margin_b40">
+	<div class="width_1200 margin_auto">
+    	<div class="width100 float_l height460 posi_relative">
+        	<div class="width100 float_l">
+                <div class="focusBox">
+                    <div class="tempWrap" style="overflow:hidden; position:relative; width:1200px">
+                    <ul class="pic" style="width: 2400px; left: -1200px; position: relative; overflow: hidden; padding: 0px; margin: 0px;" id="headimg">
+
+                        <!-- <li style="float: left; width: 1200px;"><a href="http://www.baidu.com"><img src="/static/https://live.bobcheng.space/static/slides/5e/c0ff752a80e332e5bc2f069f930dca.jpg"></a></li>
+                        <li style="float: left; width: 1200px;"><a href="http://www.baidu.com"><img src="/static/https://live.bobcheng.space/static/slides/44/b4893dc508e8d9195e1e85354c8d3f.jpg"></a></li>
+                        <li style="float: left; width: 1200px;"><a href="http://www.baidu.com"><img src="/static/https://live.bobcheng.space/static/slides/4b/3fe0bc8123117a61342c99d7e5aa8b.jpg"></a></li>
+                    --><script type="text/html" id="templateheadimg">
+                    {{each list}}
+                        <li style="float: left; width: 1200px;"><a target='_blank' href="{{$value.video_link}}"><img src="{{$value.img_url}}"></a></li>
+                    {{/each}}
+                    </script>
+                    </ul>
+                    </div>
+                    <a class="prev" href="javascript:void(0)"></a>
+                    <a class="next" href="javascript:void(0)"></a>
+                    <ul class="hd">
+                        <li class=""></li>
+                        <li class=""></li>
+                        <li class=""></li>
+                    </ul>
+                </div>
+            </div>
+         </div>
+    </div>
+</div>
+<script type="text/javascript">
+          var createliveElement = function(videoList,dataObj,i){
+                        var livelist = {
+                            video_link: dataObj[i].video_link,
+                            img_url: dataObj[i].img_url,
+                            title:dataObj[i].title,
+                        };
+                        var list = videoList.list;
+                        list.push(livelist);
+                    };
+        $.ajax({
+            url: 'http://live.bobcheng.space/slides', //请求的api地址，这里请求的是sign_in这个api
+            //data: fd, // 放进刚刚设置的formdata类型的数据
+            processData: false,
+            contentType: false, 
+			async: false,
+            type: 'GET',
+            xhrFields: {
+                withCredentials: true, //用来开启cookies
+            },
+            //请求成功的回调函数，result数据类型已经是json对象，处理的时候按照处理json对象的方法获取里面的数值
+            success: function(result){
+                var data = result.data;
+                var status = result.status;
+                var imgs = data.imgs
+                var videoList ={
+                    list:[]
+                };
+                if(status === true){
+
+                    for(i=imgs.length-1;i>=imgs.length-3;i--){
+                        createliveElement(videoList,imgs,i);
+                    }
+                    console.log(videoList);
+
+                    var html = template("templateheadimg",videoList);
+                   document.getElementById('headimg').innerHTML=html;
+
+                }
+                if(status === false){
+                        alert(result.error);
+                }
+                            
+            },
+            error:function(result){ 
+                alert('error');
+                //alert('账号或密码错误!');                    
+            },  
+        });     
+      </script>
+<script>
+	$('.tab_qiehuan').hover(function(){
+         $(this).children(".bianhuabeijing").css("background-color","#8a8f93").next().css("display","block")
+	},function(){
+    	 $(this).children(".bianhuabeijing").css("background-color","#a9aaae").next().css("display","none")
+	});
+</script>
+
+<script type="text/javascript">
+	jQuery(".focusBox").slide({ mainCell:".pic",effect:"left", autoPlay:true, delayTime:500});
+</script>
+
+  <script type="text/javascript" src="/static/javascript1/util.js"></script>
+      <script type="text/javascript" src="/static/javascript1/md5.js"></script>
+      <script type="text/javascript" src="/static/javascript1/index.js"></script>
+
+	<!-- live -->
+
+	<div class="b-20"></div>
+	<div class="g-box m-snav">
+		<ul>
+			<li>
+				<div class="logo logo-1"></div>
+				<div class="explain">
+					<h1 class="tt">直播课程</h1>
+					<p class="info">显示当前直播课程</p>
+				</div>
+			</li>
+		</ul>
+	</div>
+
+	<!-- livecourse -->
+<div class="width100 float_l margin_b40" >
+    <div class="width_1200 margin_auto">        
+        <div class="width100 float_l" id="live">
+        <script type="text/html" id="templatelive">
+            {{each list}}
+            <div class="width_220 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
+            <a target='_blank' href="{{$value.address}}">
+                <div class="width100 float_l img_100 z_inx_1">
+                    <img src={{$value.picture}}>
+                </div>
+                <div class="img_backg2 donghua">
+                    <span class="margin_t15 float_l color_green"><strong>{{$value.name}}</strong></span>
+                    <span class="float_l fon_siz12 line_hei16 color_black margin_t5 posi_relative ">start:{{$value.starttime}}<br/>end:{{$value.endtime}}</span>
+                </div>
+                <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                    <span class="float_l color_green">{{$value.hostname}}</span>
+                    <span class="float_r color_gray"><span>{{$value.describe}}</span>
+                </div>
+            </a>
+            </div>
+            {{/each}}  
+        </script>    
+            
+        </div>
+   
+    </div>
+    </div>
+
+
+        <div style="text-align:center;">
+                <ul id="liveoption" class="pagination"></ul>
+        </div>
+
+
+	<div class="b-20"></div>
+	<div class="g-box m-snav">
+		<ul>
+			<li>
+				<div class="logo logo-1"></div>
+				<div class="explain">
+					<h1 class="tt">点播课程</h1>
+					<p class="info">显示点播课程</p>
+				</div>
+			</li>
+		</ul>
+	</div>
+<div class="width100 float_l margin_b40" >
+    <div class="width_1200 margin_auto">        
+        <div class="width100 float_l" id="video">
+        <script type="text/html" id="templatevideo">
+            {{each list}}
+            <div class="width_220 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
+            <a target='_blank' href="{{$value.address}}">
+                <div class="width100 float_l img_100 z_inx_1">
+                    <img src={{$value.picture}}>
+                </div>
+                <div class="img_backg2 donghua">
+                    <span class="margin_t15 float_l color_green"><strong>{{$value.name}}</strong></span>
+                    <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative "><br/>{{$value.describe}}</span>
+                </div>
+                <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                    <span class="float_l color_green">{{$value.hostname}}</span>
+                </div>
+            </a>
+            </div>
+            {{/each}}  
+        </script>    
+            
+        </div>
+   
+    </div>
+    </div>
+	
+
+    <div style="text-align:center;">
+                <ul id="videooption" class="pagination"></ul>
+    </div> 
+
+
+	<div class="b-20"></div>
+	<div class="g-box m-snav">
+		<ul>
+			<li>
+				<div class="logo logo-1"></div>
+				<div class="explain">
+					<h1 class="tt">回放课程</h1>
+					<p class="info">显示回放课程</p>
+				</div>
+			</li>
+		</ul>
+	</div>
+<div class="width100 float_l margin_b40" >
+    <div class="width_1200 margin_auto">        
+        <div class="width100 float_l" id="back">
+        <script type="text/html" id="templateback">
+            {{each list}}
+             <div class="width_220 height172 float_l margin_r20 border_shadow jingguoxianshi over_pos bianshou">
+            <a target='_blank' href="{{$value.address}}">
+                <div class="width100 float_l img_100 z_inx_1">
+                    <img src={{$value.picture}}>
+                </div>
+                <div class="img_backg2 donghua">
+                    <span class="margin_t15 float_l color_green"><strong>{{$value.name}}</strong></span>
+                    <span class="float_l fon_siz12 line_hei16 color_gray margin_t5 posi_relative ">{{$value.describe}}</span>
+                </div>
+                <div class="width100 float_l padding_lr20 height48 fon_siz12 line_hei48 z_inx_3 posi_relative backg_white">
+                    <span class="float_l color_green">{{$value.hostname}}</span>
+                </div>
+            </a>
+            </div>
+            </div>
+            {{/each}}  
+        </script>    
+            
+        </div>
+   
+    </div>
+    </div>
+	<div style="text-align:center;">
+                <ul id="backoption" class="pagination"></ul>
+        </div>		
+
+</body>
+</html>
