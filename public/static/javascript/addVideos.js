@@ -67,46 +67,52 @@ window.onload=function abe(){
 			//	default:
 			//		maxStu = 20;
 			//		classType = 2;
-			//}
-			classType = 2;
-			maxStu = 20;
-			console.log(className);
-			console.log(classIntro);
-			console.log(beginUTCTime);
-			console.log(endUTCTime);
-			console.log(classType);
-			console.log(maxStu);
-			var fd = new FormData();    
-			fd.append( 'id', usrName);
-			fd.append( 'title', className);
-			fd.append( 'introduction', classIntro);
-			fd.append( 'stratTimeStamp', beginUTCTime);
-			fd.append( 'endTimeStamp', endUTCTime);
-			fd.append( 'classType', classType);
-			fd.append( 'maxStu', maxStu);
-			fd.append( 'image', $('#classPic')[0].files[0] ); //上传文件的操作
-			$.ajax({
-				url: 'http://live.bobcheng.space/build_room', //请求的api地址，这里请求的是sign_in这个api
-				data: fd, // 放进刚刚设置的formdata类型的数据
-				processData: false,
-				contentType: false, 
-				type: 'POST',
-				xhrFields: {
-					withCredentials: true, //用来开启cookies
-				},
-				//请求成功的回调函数，result数据类型已经是json对象，处理的时候按照处理json对象的方法获取里面的数值
-				success: function(result){
-				    if(result.status === true){
-                        alert('提交成功');
-                    }else{
-				        alert('提交失败:' + result.error);
-                    }
+            //}
+            var picFile = $('#classPic')[0].files[0];
+            if(!className || !classIntro || !beginTime || !endTime || !picFile ){
+				alert('请输入完整房间信息');			
+			}
+			else{
+                classType = 2;
+                maxStu = 20;
+                console.log(className);
+                console.log(classIntro);
+                console.log(beginUTCTime);
+                console.log(endUTCTime);
+                console.log(classType);
+                console.log(maxStu);
+                var fd = new FormData();    
+                fd.append( 'id', usrName);
+                fd.append( 'title', className);
+                fd.append( 'introduction', classIntro);
+                fd.append( 'stratTimeStamp', beginUTCTime);
+                fd.append( 'endTimeStamp', endUTCTime);
+                fd.append( 'classType', classType);
+                fd.append( 'maxStu', maxStu);
+                fd.append( 'image', $('#classPic')[0].files[0] ); //上传文件的操作
+                $.ajax({
+                    url: 'http://live.bobcheng.space/build_room', //请求的api地址，这里请求的是sign_in这个api
+                    data: fd, // 放进刚刚设置的formdata类型的数据
+                    processData: false,
+                    contentType: false, 
+                    type: 'POST',
+                    xhrFields: {
+                        withCredentials: true, //用来开启cookies
+                    },
+                    //请求成功的回调函数，result数据类型已经是json对象，处理的时候按照处理json对象的方法获取里面的数值
+                    success: function(result){
+                        if(result.status === true){
+                            alert('提交成功');
+                        }else{
+                            alert('提交失败:' + result.error);
+                        }
 
-				},
-				error:function(){     
-					alert('未提交成功');
-				},  
-			});
+                    },
+                    error:function(){     
+                        alert('未提交成功');
+                    },  
+                });
+            }
 		});
 
 		//-------------------------上传视频---------------------------------
