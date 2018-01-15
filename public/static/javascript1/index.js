@@ -686,5 +686,6 @@ function logout(){
     u1.style.display="";
     var u2 =document.getElementById("denglu2");
     u2.style.display="";
+    sessionStorage.clear();
 }
 
