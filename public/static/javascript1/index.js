@@ -4,56 +4,56 @@
 		ui.style.display="none";
 	})
 
-	// util.ready(function(){
-	// 				var createliveElement = function(videoList,dataObj,i){
-	// 					var livelist = {
-	// 						video_link: dataObj[i].video_link,
-	// 						img_url: dataObj[i].img_url,
-	// 						title:dataObj[i].title,
-	// 					};
-	// 					var list = videoList.list;
-	// 					list.push(livelist);
-	//     			};
-	// 	$.ajax({
-	// 		url: 'http://live.bobcheng.space/slides', //请求的api地址，这里请求的是sign_in这个api
-	// 		//data: fd, // 放进刚刚设置的formdata类型的数据
-	// 		processData: false,
-	// 		contentType: false, 
-	// 		type: 'GET',
-	// 		async: false,
-	// 		xhrFields: {
-	// 			withCredentials: true, //用来开启cookies
-	// 		},
-	// 		//请求成功的回调函数，result数据类型已经是json对象，处理的时候按照处理json对象的方法获取里面的数值
-	// 		success: function(result){
-	// 			var data = result.data;
-	// 			var status = result.status;
-	// 			var imgs = data.imgs
-	// 			var videoList ={
-	// 				list:[]
-	// 			};
-	// 			if(status === true){
+	util.ready(function(){
+					var createliveElement = function(videoList,dataObj,i){
+						var livelist = {
+							video_link: dataObj[i].video_link,
+							img_url: dataObj[i].img_url,
+							title:dataObj[i].title,
+						};
+						var list = videoList.list;
+						list.push(livelist);
+	    			};
+		$.ajax({
+			url: 'http://live.bobcheng.space/slides', //请求的api地址，这里请求的是sign_in这个api
+			//data: fd, // 放进刚刚设置的formdata类型的数据
+			processData: false,
+			contentType: false,
+			type: 'GET',
+			async: false,
+			xhrFields: {
+				withCredentials: true, //用来开启cookies
+			},
+			//请求成功的回调函数，result数据类型已经是json对象，处理的时候按照处理json对象的方法获取里面的数值
+			success: function(result){
+				var data = result.data;
+				var status = result.status;
+				var imgs = data.imgs
+				var videoList ={
+					list:[]
+				};
+				if(status === true){
 
-	// 				for(i=imgs.length-1;i>=imgs.length-3;i--){
-	// 					createliveElement(videoList,imgs,i);
-	// 				}
-	// 				console.log(videoList);
+					for(i=imgs.length-1;i>=imgs.length-3;i--){
+						createliveElement(videoList,imgs,i);
+					}
+					console.log(videoList);
 
-	// 				var html = template("templateheadimg",videoList);
-	// 			   document.getElementById('headimg').innerHTML=html;
+					var html = template("templateheadimg",videoList);
+				   document.getElementById('headimg').innerHTML=html;
 
-	// 			}
-	// 			if(status === false){
-	// 					alert(result.error);
-	// 			}
+				}
+				if(status === false){
+						alert(result.error);
+				}
 							
-	// 		},
-	// 		error:function(result){ 
-	// 			alert('error');
-	// 			//alert('账号或密码错误!');					
-	// 		},  
-	// 	});		
-	// });
+			},
+			error:function(result){
+				alert('error');
+				//alert('账号或密码错误!');
+			},
+		});
+	});
 	//2.关于网易产品 、 登陆
 	util.ready(function(){
 			if(sessionStorage&&sessionStorage['localName']){
@@ -66,6 +66,8 @@
 				var mi =document.getElementById("home");
 				//console.log(mi.innerHTML);
 				mi.innerHTML="hello,"+sessionStorage.getItem('localName');
+                var outi =document.getElementById("logout");
+                outi.innerHTML="退出登录";
 				
 			}
 			var loginModal = document.getElementById("login");
@@ -130,6 +132,9 @@
 									var mi =document.getElementById("home");
 									//console.log(mi.innerHTML);
 									mi.innerHTML="hello,"+data.username;
+                                	var outi =document.getElementById("logout");
+                                	outi.innerHTML="退出登录";
+
 								var u1 =document.getElementById("zhuce2");
 									u1.style.display="none";
 								var u2 =document.getElementById("denglu2");
@@ -252,6 +257,8 @@
 									var mi =document.getElementById("home");
 									//console.log(mi.innerHTML);
 									mi.innerHTML="hello,"+data.username;
+                                	var outi =document.getElementById("logout");
+                                	outi.innerHTML="退出登录";
 								var u1 =document.getElementById("zhuce2");
 									u1.style.display="none";
 								var u2 =document.getElementById("denglu2");
@@ -410,14 +417,26 @@
 	 util.ready(function(){
 	 
 		var createliveElement = function(videoList,dataObj,i){
+            var timestamp = Date.parse(new Date())/1000;
+            //console.log(timestamp);
+            var state;
+            function timetrans(date){
+                var date = new Date(date*1000);//如果date为13位不需要乘1000
+                var Y = date.getFullYear() + '-';
+                var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+                var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
+                var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+                var m = (date.getMinutes() <10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
+                var s = (date.getSeconds() <10 ? '0' + date.getSeconds() : date.getSeconds());
+                return h+m+s;
+            }
 				var livelist = {
 				address: dataObj[i].videoUrl,
 				picture: dataObj[i].imgUrl,
 				name:dataObj[i].name,
 				hostname: dataObj[i].hostName,
 				describe: dataObj[i].info,
-				emdtime: dataObj[i].startTime,
-				starttime:dataObj[i].endTime
+				lengthtime: timetrans(dataObj[i].length)
 			};
 			var list = videoList.list;
 			list.push(livelist);
@@ -530,14 +549,26 @@
 	util.ready(function(){
 	 
 		var createliveElement = function(videoList,dataObj,i){
+            var timestamp = Date.parse(new Date())/1000;
+            //console.log(timestamp);
+            var state;
+            function timetrans(date){
+                var date = new Date(date*1000);//如果date为13位不需要乘1000
+                var Y = date.getFullYear() + '-';
+                var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+                var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
+                var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+                var m = (date.getMinutes() <10 ? '0' + date.getMinutes() : date.getMinutes())+ ':';
+                var s = (date.getSeconds() <10 ? '0' + date.getSeconds() : date.getSeconds());
+                return h+m+s;
+            }
 				var livelist = {
 				address: dataObj[i].videoUrl,
 				picture: dataObj[i].imgUrl,
 				name:dataObj[i].name,
 				hostname: dataObj[i].hostName,
 				describe: dataObj[i].info,
-				emdtime: dataObj[i].startTime,
-				starttime:dataObj[i].endTime
+				lengthtime: timetrans(dataObj[i].length)
 			};
 			var list = videoList.list;
 			list.push(livelist);
@@ -647,7 +678,13 @@
 			});
 	};go3();
 });
-
-	
-
 })();
+function logout(){
+    var ui =document.getElementById("hello");
+    ui.style.display="none";
+    var u1 =document.getElementById("zhuce2");
+    u1.style.display="";
+    var u2 =document.getElementById("denglu2");
+    u2.style.display="";
+}
+
