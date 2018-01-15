@@ -102,7 +102,7 @@
 	<div class="g-hd">
 		<div class="g-box m-top">
 			<div class="f-fl">
-				<img class="f-fl" src="/static/images/icons/netnease-edu-logo-black.png">
+				<img class="f-fl" src="/static/images/icons/netnease-edu-logo-black.png" style="margin-top: -23px">
 <!--				<div class="attention z-show f-fl" id = "attention">
 					<div class="dnc f-fl  ">
 						<a href="#" id="guanzhudnc">
@@ -148,9 +148,9 @@
 		<div class="m-coursebd f-cb g-box">
 				<div class="main f-cb">
 					<ul class="nav" id="coursebdNav">
-						<li><a href="#" id="10" >直播视频</a></li>
-						<li><a href="#" id="20" >回放视频</a></li>
-						<li><a href="#" id="30" >点播视频</a></li>
+						<li><a href="#" id="ii10" name="10">直播视频</a></li>
+						<li><a href="#" id="ii20" name="20">回放视频</a></li>
+						<li><a href="#" id="ii30" name="30">点播视频</a></li>
 						<!--<li><a href="#" id="40" >我的直播</a></li>-->
 						<!--<li><a href="#" id="50" >我的点播</a></li>-->
 					</ul>
@@ -172,7 +172,10 @@
 
 						<script type="text/html" id="template-courselist">
 						{{each list}}
-						 <li>
+						 <li style="position: relative">
+							 <div href="#" value="{{$value.videoID}}" type="{{$value.deleteTP}}" mode="{{$value.deleteMD}}" onclick="deletevideos(this)" group="{{$value.group}}">
+								 <img src="/static/images/delete.png" width="20px" style="position: absolute; right: 20px; cursor:pointer" >
+							 </div>
 							<a target="_blank" href="{{$value.videoUrl}}">
 								<div class="div_img"><img class="logo"  src="{{$value.picture}}" alt=""></div>
 								<div class="infoarea">			

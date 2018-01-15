@@ -7,8 +7,13 @@ $(document).ready(function(){
 	var loginRoomSubmit = $("#loginRoomSubmit");
 	loginRoomSubmit.click(function(){
 		var loginRoomID = $("#loginRoomID").val();
-		console.log(loginRoomID);
-		window.location.href= "http://live.bobcheng.space/enter/quick/"+loginRoomID;
+		if(!loginRoomID){
+		    alert('房间号不能为空');
+        }else {
+            //window.location.href= "http://live.bobcheng.space/enter/quick/"+loginRoomID;
+            window.open("http://live.bobcheng.space/enter/quick/"+loginRoomID);
+        }
+
 	});
 });
 
@@ -175,7 +180,14 @@ window.onload=function abe(){
                     uploader.reset();
                     return;
                 }
-                var itemHTML = '<div class="item-list">'
+                var videotitle = $("#name").val();
+                var videoinfo = $("#introduction").val();
+                if(!videotitle || !videoinfo){
+                    alert("标题和简介不能为空");
+                    return;
+                }
+                var itemHTML = '<div class="item-list">';
+
 
                 $.each(
                     currentFiles,
@@ -183,7 +195,7 @@ window.onload=function abe(){
                         itemHTML += '<div class="item">'
                             + '<span class="item-text item-name">'
                             //+ file.videoName	//改用 用户自定义的标题作为视频名
-							+ $("#name").val()	//这里是修改过后的
+							+ videotitle	//这里是修改过后的
                             + '</span>'
                             + '<span class="item-text item-status">等待上传</span>'
                             + ' </div>';
