@@ -11,10 +11,10 @@ class Video extends Controller
     {
         config("default_return_type","json");
     }*/
-	public function index()
+	/*public function index()
 	{
-		dump(config());
-	}
+		//dump(config());
+	}*/
     public function upload_url()
     {
         $post_info = request()->post();
@@ -57,7 +57,7 @@ class Video extends Controller
             'status' => 10  //status=10表示上传中
         ]);
         /**返回给前端的时候只用把百家云返回的数据直接按json格式返回给前端就可以了 */
-        return json($result_json);
+        return json($result_json)->send();
     }
     
     public function resume_upload_url()
@@ -80,7 +80,7 @@ class Video extends Controller
         if($result_json['code'] != 0){
             return Funcs::myAbort(502, $result_json['msg'].'[code]:' . $result_json['code']);
         }
-        return json($result_json);
+        return json($result_json)->send();
     }
 
     /*
@@ -89,7 +89,7 @@ class Video extends Controller
     public function test_post()
     {
         $post_info = request()->post();
-        dump($post_info);
+        //dump($post_info);
     }
 
     public function get_token($id)
@@ -111,7 +111,7 @@ class Video extends Controller
         if($result_json['code'] != 0){
             return Funcs::myAbort(502, $result_json['msg'].'[code]:' . $result_json['code']);
         }
-        return json($result_json);
+        return json($result_json)->send();
     }
 
     public function get_info($id)
@@ -133,7 +133,7 @@ class Video extends Controller
         if($result_json['code'] != 0){
             return Funcs::myAbort(502, $result_json['msg'].'[code]:' . $result_json['code']);
         }
-        return json($result_json);
+        return json($result_json)->send();
     }
 }
 

@@ -91,8 +91,6 @@ class Funcs{
             'status' => false,
             'error' => $msg,
         ];
-        return json($out);
+        return json($out)->send();
     }
-
-
 }

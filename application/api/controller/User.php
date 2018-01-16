@@ -47,7 +47,7 @@ class User extends Controller {
                 Session::set('username', $created_user->user_id);
                 Session::set('role', $created_user->role);
 
-                return json(Funcs::rtnFormat($data));
+                return json(Funcs::rtnFormat($data))->send();
             }else{
                 return Funcs::myAbort(502, 'save info error');
             }
@@ -72,7 +72,7 @@ class User extends Controller {
             Session::set('username', $find_user->user_id);
             Session::set('role', $find_user->role);
 
-            return json(Funcs::rtnFormat($data));
+            return json(Funcs::rtnFormat($data))->send();
         }
     }
 
@@ -342,18 +342,20 @@ class User extends Controller {
             return Funcs::myAbort(400, 'user does not exist or is not a teacher');
         }
         //dump('start_update');
+
+        //dump('update_ok');
+        $my_lives = $teacher->myCreatedLives;
+        $data = $this->get_live_datafmt($my_lives, $this->request->root(true),
+                                        $post_info['itemsPerPage'], $post_info['currentPage']);
+        //return Funcs::rtnFormat($data); //2017-12-28 16:42:06  lhz修改，应为下面那句
+        json(Funcs::rtnFormat($data))->send();
         //首先要更新一下回放列表，才能够判断视频是否有回放。
         //2017-12-28 14:45:50  lhz新增，更新video的操作和更新playback的操作放在一起
         if(Funcs::check_fresh()){
             $this->update_playback();
             $this->update_video();  //2017-12-28 14:46:39 lhz新增
         }
-        //dump('update_ok');
-        $my_lives = $teacher->myCreatedLives;
-        $data = $this->get_live_datafmt($my_lives, $this->request->root(true),
-                                        $post_info['itemsPerPage'], $post_info['currentPage']);
-        //return Funcs::rtnFormat($data); //2017-12-28 16:42:06  lhz修改，应为下面那句
-        return json(Funcs::rtnFormat($data));
+        return;
     }
 
     /**
@@ -368,16 +370,19 @@ class User extends Controller {
         if($teacher == null || $teacher->role == 'student'){
             return Funcs::myAbort(400, 'user does not exist or is not a teacher');
         }
+
+        $my_videos=$teacher->myCreatedVideos;
+        $data = $this->get_live_datafmt($my_videos, $this->request->root(true),
+                                        $post_info['itemsPerPage'], $post_info['currentPage'],2);
+
+        json(Funcs::rtnFormat($data))->send();
         //首先要更新一下视频列表，才能够判断视频是否可以播放。
         //2017-12-28 14:45:50  lhz新增，更新video的操作和更新playback的操作放在一起
         if(Funcs::check_fresh()){
             $this->update_playback();
             $this->update_video();  //2017-12-28 14:46:39 lhz新增
         }
-        $my_videos=$teacher->myCreatedVideos;
-        $data = $this->get_live_datafmt($my_videos, $this->request->root(true),
-                                        $post_info['itemsPerPage'], $post_info['currentPage'],2);
-        return json(Funcs::rtnFormat($data));
+        return;
     }
     /**
      * 以上2017-12-28 14:48:56 lhz新增
@@ -387,14 +392,14 @@ class User extends Controller {
         $post_info = $this->request->post();
         $base_url = $this->request->root(true);
         //return $this->get_videos($post_info, $base_url, false); //2017-12-28 16:47:05  lhz修改，应为下面那句
-        return json($this->get_videos($post_info, $base_url, false));
+        $this->get_videos($post_info, $base_url, false);
     }
 
     public function video_history(){
         $post_info = $this->request->post();
         $base_url = $this->request->root(true);
         //return $this->get_videos($post_info, $base_url, true);  //2017-12-28 16:47:05  lhz修改，应为下面那句
-        return json($this->get_videos($post_info, $base_url, true));  
+        $this->get_videos($post_info, $base_url, true);
     }
 
     /**
@@ -412,12 +417,7 @@ class User extends Controller {
                 return Funcs::myAbort(400, 'user does not exist');
             }
         }
-        //首先要更新一下回放列表，才能够判断视频是否有回放。
-        //2017-12-28 14:45:50  lhz新增，更新video的操作和更新playback的操作放在一起
-        if(Funcs::check_fresh()){
-            $this->update_playback();
-            $this->update_video();  //2017-12-28 14:46:39 lhz新增
-        }
+
         switch ($post_info['videoType']){
             case 'live':
                 $live_now = $is_history ? $user->myJoinedLives : LiveNow::all();
@@ -430,7 +430,7 @@ class User extends Controller {
                 }
                 $data = $this->get_live_datafmt($rt_lives, $base_url,
                                                 $post_info['itemsPerPage'], $post_info['currentPage'], 0);
-                return Funcs::rtnFormat($data);
+                json(Funcs::rtnFormat($data))->send();
                 break;
             case 'playback':
                 $live_now = $is_history ? $user->myJoinedLives : LiveNow::all();
@@ -444,7 +444,7 @@ class User extends Controller {
                 //$this->request->root(true)
                 $data = $this->get_live_datafmt($rt_lives, $base_url,
                                                 $post_info['itemsPerPage'], $post_info['currentPage'], 1);
-                return Funcs::rtnFormat($data);
+                json(Funcs::rtnFormat($data))->send();
                 break;
 
             case 'video':   //2017-12-28 16:22:34  这里的video原本多了个空格，导致匹配不上。
@@ -456,14 +456,22 @@ class User extends Controller {
                 $videos_list=$is_history?$user->myJoinedVideos : Video::all(['status'=>100]);   //主页上显示的点播应该是转码成功的
                 $data = $this->get_live_datafmt($videos_list, $base_url,
                                                 $post_info['itemsPerPage'], $post_info['currentPage'], 2);
-                return Funcs::rtnFormat($data);
+                json(Funcs::rtnFormat($data))->send();
                 /**
                  * 以上 2017-12-28 15:37:05 lhz新加
                  */
                 break;
             default:
-                return Funcs::myAbort(400, 'videoType cannot be'.$post_info['videoType']);
+                json(Funcs::myAbort(400, 'videoType cannot be'.$post_info['videoType']))->send();
+                break;
         }
+        //首先要更新一下回放列表，才能够判断视频是否有回放。
+        //2017-12-28 14:45:50  lhz新增，更新video的操作和更新playback的操作放在一起
+        if(Funcs::check_fresh()){
+            $this->update_playback();
+            $this->update_video();  //2017-12-28 14:46:39 lhz新增
+        }
+        return;
     }
 
     //更新video信息
@@ -478,7 +486,7 @@ class User extends Controller {
         ];
         foreach($list as $video)
         {
-            dump($video);
+            //dump($video);
             $parm['video_id'] = $video->video_id;
             $sign = Funcs::getSign($parm);
             $parm['sign'] = $sign;
@@ -521,13 +529,13 @@ class User extends Controller {
                         return Funcs::myAbort(502, $result_json2['msg'].'[code]:' . $result_json2['code']);
                     }
                     $result_data2 = $result_json2['data'];
-                    dump($result_json2);
+                    //dump($result_json2);
 
                     //设置其他数据项
                     $video->length=$result_data['length'];
                     $video->preface_url=$result_data['preface_url'];
                     $video->token=$result_data2['token'];
-                    dump($video);
+                    //dump($video);
                 }
 
                 //执行数据库更新
