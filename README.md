@@ -1,6 +1,6 @@
 ## 直播云课堂
 
-使用了百家云的直播api构建的一个简单的教育直播网站。地址：http://live.bobcheng.space
+使用了百家云的直播api构建的一个简单的教育直播网站。地址：https://live.bobcheng.space
 
 ### 技术栈
 

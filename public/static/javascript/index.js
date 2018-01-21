@@ -40,7 +40,7 @@
 		}
 		//请求数据
 /*		util.ajax({
-			url: "http://live.bobcheng.space/main_page_videos",
+			url: "https://live.bobcheng.space/main_page_videos",
 			success: function(data){
 				var hotCrsList = JSON.parse(data);
 				util.forEach(hotCrsList, function(item){
@@ -53,7 +53,7 @@
 		hotPost.append( 'itemsPerPage', '10');
 		hotPost.append( 'videoType', 'live');
 		$.ajax({
-			url:  "http://live.bobcheng.space/main_page_videos",
+			url:  "https://live.bobcheng.space/main_page_videos",
 			data: hotPost,
 			type: 'POST',
 			processData: false,

@@ -15,7 +15,7 @@
 						list.push(livelist);
 	    			};
 		$.ajax({
-			url: 'http://live.bobcheng.space/slides', //请求的api地址，这里请求的是sign_in这个api
+			url: 'https://live.bobcheng.space/slides', //请求的api地址，这里请求的是sign_in这个api
 			//data: fd, // 放进刚刚设置的formdata类型的数据
 			processData: false,
 			contentType: false,
@@ -112,7 +112,7 @@
 					fd.append( 'id', usrID);
 					fd.append( 'password', usrPassword);
 					$.ajax({
-						url: 'http://live.bobcheng.space/sign_in', //请求的api地址，这里请求的是sign_in这个api
+						url: 'https://live.bobcheng.space/sign_in', //请求的api地址，这里请求的是sign_in这个api
 						data: fd, // 放进刚刚设置的formdata类型的数据
 						processData: false,
 						contentType: false, 
@@ -235,7 +235,7 @@
 					fd.append('identity',identity);
 
 					$.ajax({
-						url: 'http://live.bobcheng.space/sign_up', //请求的api地址，这里请求的是sign_in这个api
+						url: 'https://live.bobcheng.space/sign_up', //请求的api地址，这里请求的是sign_in这个api
 						data: fd, // 放进刚刚设置的formdata类型的数据
 						processData: false,
 						contentType: false, 
@@ -280,7 +280,7 @@
 	});
 	//5.左侧内容区Tab切换
 	 util.ready(function(){
-	 	var courseUrl = "http://live.bobcheng.space/my_live";
+	 	var courseUrl = "https://live.bobcheng.space/my_live";
 		// var livecourselist = document.getElementById("live");
 		// var videocourselist = document.getElementById("video");
 		// var backcourselist = document.getElementById("back");
@@ -320,7 +320,7 @@
 			var list = videoList.list;
 		//ctype = 40;
 		//var videoType = "";
-			var getVideoUrl ="http://live.bobcheng.space/main_page_videos";
+			var getVideoUrl ="https://live.bobcheng.space/main_page_videos";
 		// console.log(ctype);
 		// console.log(getVideoUrl);
 
@@ -458,7 +458,7 @@
 			var list = videoList.list;
 		//ctype = 40;
 		//var videoType = "";
-			var getVideoUrl ="http://live.bobcheng.space/main_page_videos";
+			var getVideoUrl ="https://live.bobcheng.space/main_page_videos";
 		// console.log(ctype);
 		// console.log(getVideoUrl);
 
@@ -582,7 +582,7 @@
 			var list = videoList.list;
 		//ctype = 40;
 		//var videoType = "";
-			var getVideoUrl ="http://live.bobcheng.space/main_page_videos";
+			var getVideoUrl ="https://live.bobcheng.space/main_page_videos";
 		// console.log(ctype);
 		// console.log(getVideoUrl);
 

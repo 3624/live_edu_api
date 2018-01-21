@@ -1,6 +1,6 @@
 //5.左侧内容区Tab切换
 $(document).ready(function(){
-	var courseUrl = "http://live.bobcheng.space/my_live";
+	var courseUrl = "https://live.bobcheng.space/my_live";
 	var courselist = document.getElementById("courselist");
 	var courselistOuter = document.getElementById("courselistOuter");
 	var tabs = document.getElementById("coursebdNav").getElementsByTagName("a");
@@ -197,7 +197,7 @@ var go = function(ctype){
     var list = videoList.list;
     //ctype = 40;
     var videoType = "";
-    var getVideoUrl ="http://live.bobcheng.space/video_history";
+    var getVideoUrl ="https://live.bobcheng.space/video_history";
     if(ctype == 10){
         videoType = "live";
     }
@@ -209,11 +209,11 @@ var go = function(ctype){
     }
     else if(ctype == 40){
         videoType = 'live';
-        getVideoUrl = "http://live.bobcheng.space/my_live";
+        getVideoUrl = "https://live.bobcheng.space/my_live";
     }
     else if(ctype == 50){
         videoType = 'video';
-        getVideoUrl = "http://live.bobcheng.space/my_video";
+        getVideoUrl = "https://live.bobcheng.space/my_video";
     }
     console.log(ctype);
     console.log(getVideoUrl);
@@ -265,7 +265,7 @@ function deletevideos(obj) {
     livePost.append( 'id', sessionStorage.getItem("localName"));
 
     $.ajax({
-        url:  "http://live.bobcheng.space/delete/" + obj.attributes["mode"].value,
+        url:  "https://live.bobcheng.space/delete/" + obj.attributes["mode"].value,
         data: livePost,
         type: 'POST',
         processData: false,

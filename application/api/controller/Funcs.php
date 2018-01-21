@@ -13,6 +13,7 @@ class Funcs{
     static $partner_key = 'XwDMeBpviq4VclGbGfTk9ACZq4z+c8aICRE9p4dbo+VGglzvQp4cpMju5tc2PnMBH6QrTXNcdEXnaIsi0HO2ZA==';
     static $partner_id = 37421328;
     static $playback_fresh_file = 'fresh_time.txt';
+    static $base_url = 'https://live.bobcheng.space';
 
     public static function rtnFormat($data, $code=200, $status=true){
         $rtn = ['code' => $code,

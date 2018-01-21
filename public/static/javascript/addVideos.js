@@ -10,8 +10,8 @@ $(document).ready(function(){
 		if(!loginRoomID){
 		    alert('房间号不能为空');
         }else {
-            //window.location.href= "http://live.bobcheng.space/enter/quick/"+loginRoomID;
-            window.open("http://live.bobcheng.space/enter/quick/"+loginRoomID);
+            //window.location.href= "https://live.bobcheng.space/enter/quick/"+loginRoomID;
+            window.open("https://live.bobcheng.space/enter/quick/"+loginRoomID);
         }
 
 	});
@@ -96,7 +96,7 @@ window.onload=function abe(){
                 fd.append( 'maxStu', maxStu);
                 fd.append( 'image', $('#classPic')[0].files[0] ); //上传文件的操作
                 $.ajax({
-                    url: 'http://live.bobcheng.space/build_room', //请求的api地址，这里请求的是sign_in这个api
+                    url: 'https://live.bobcheng.space/build_room', //请求的api地址，这里请求的是sign_in这个api
                     data: fd, // 放进刚刚设置的formdata类型的数据
                     processData: false,
                     contentType: false, 
@@ -128,7 +128,7 @@ window.onload=function abe(){
             multiple: true,
             getUploadUrl: function (data) {
                 return $.ajax({
-					url: 'http://live.bobcheng.space/upload_url',	//这里的地址对应于api的地址
+					url: 'https://live.bobcheng.space/upload_url',	//这里的地址对应于api的地址
                     type: 'post',
                     data: { //这里面的参数对应于api要求发送过来的参数。注意：已有的四个参数是必须的！
                         //file_name: data.videoName, //上传视频的文件名保存在data.videoName,但是现在不使用默认的文件名作为点播视频的标题，改用用户自定义的标题。所以改为下面那行的方式。
@@ -150,7 +150,7 @@ window.onload=function abe(){
             },
             getResumeUploadUrl: function (data) {   //这个函数应该不用改
                 return $.ajax({
-                    url: 'http://live.bobcheng.space/resume_upload_url',	//这里的地址对应于api的地址
+                    url: 'https://live.bobcheng.space/resume_upload_url',	//这里的地址对应于api的地址
                     type: 'post',
                     data: { //这里面的参数对应于api要求发送过来的参数
                         video_id: data.uploadId
