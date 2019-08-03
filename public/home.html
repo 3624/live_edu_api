@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+	  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	  <title>直播云课堂</title>	
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no, maximum-scale=1.0">
+	  <link rel="stylesheet" type="text/css" href="/static/css/global.css">
+	  <link rel="stylesheet" type="text/css" href="/static/css/index.css">
+<!--	  <script src="/static/https://code.jquery.com/jquery-2.2.4.min.js"></script>-->
+	   <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+ 	  <script src="http://live-cdn.baijiacloud.com/js-sdk/0.0.338/uploader/VideoUploader.js"></script>
+	  <script src="/static/javascript/util.js"></script>
+      <script src="/static/javascript/md5.js"></script>
+      <!--<script src="/static/javascript/index.js"></script>-->
+	  <script src="/static/javascript/videos.js"></script>
+	  <script src="/static/javascript/addVideos.js"></script>
+	  <script src="/static/javascript/template-web.js"></script>
+	  <!--<script src="./javascript/template.js"></script>-->
+	
+</head>
+<body>
+	
+	<!-- createroom-->
+	<!-- createroom-->
+
+	<!-- uploadVideo-->
+<!--	<div class="m-modal f-dn" id="uploadModal">
+		<div class="bd ">
+			<div class="close" ><span class="f-csp" id="closeUploadModal"  >X</span></div>
+			<div class="m-login">
+				<h2 class="tt">上传视频</h2>
+				<form>
+					<h3 class="c-name">课程名</h3>
+					<input type="text" placeholder="课程名" id="upload—className">
+					<h3 class="c-inro">简要介绍</h3>
+					<input type="textarea" placeholder="简要介绍" id="upload-classIntro">
+					<div class="button upload-wrapper add-file-button">
+						<input type="file">
+						上传新视频
+					</div>
+					<div class="button btn-stop">
+						停止上传
+					</div>
+					<div class="button btn-continue">
+						继续上传
+					</div>
+				</form>						
+			</div>
+		</div>
+	</div>-->
+<!--	<div class="m-modal f-dn" id="uploadModal">
+		<div class="bd ">
+			<div class="close" ><span class="f-csp" id="closeUploadModal"  >X</span></div>
+			<div class="m-login">
+				<h2 class="tt">登录网易云课堂</h2>
+					<div class="bjy-demo">
+
+						<label>请输入视频标题（必填）：</label>
+						<input type="text" id="name" class="videoInput"></br>
+						<label>请输入视频简介（必填）：</label>
+						<input type="text" id="introduction" class="videoInput"></br>
+						</br>
+
+						<div class="button upload-wrapper add-file-button">
+							<input type="file">
+							上传新视频
+						</div>
+
+						<div class="button btn-stop">
+							停止上传
+						</div>
+
+						<div class="button btn-continue">
+							继续上传
+						</div>
+					</div>			
+			</div>
+		</div>
+	</div>-->
+    
+	<!-- uploadVideo-->
+
+
+	<!-- tips -->
+	<!--<div class="m-tips" id="tips">-->
+		<!--<div class="g-box">-->
+		    <!--<div class="f-fl">-->
+		    	<!--欢迎登陆个人中心，点击查看推荐课程！ -->
+		    	<!--<a href="#" class="viewnow">立即查看&gt;</a>-->
+		    <!--</div>-->
+		    <!--<div class="f-fr f-csp">-->
+		    	<!--<a href="#" id="closeTips"> -->
+			    	<!--<span class="u-icon u-icon-close"></span>-->
+			    	<!--&nbsp;不再提醒 -->
+		    	<!--</a>-->
+		    <!--</div>	-->
+		<!--</div>-->
+	<!--</div>-->
+	<!-- /tips -->
+
+	<!-- top -->
+	<div class="g-hd">
+		<div class="g-box m-top">
+			<div class="f-fl">
+				<img class="f-fl" src="/static/images/icons/netnease-edu-logo-black.png" style="margin-top: -23px">
+<!--				<div class="attention z-show f-fl" id = "attention">
+					<div class="dnc f-fl  ">
+						<a href="#" id="guanzhudnc">
+							<span class="u-icon u-icon-plus"></span>&nbsp;关注
+						</a>
+					</div>
+					<div class="hbfo f-fl ">
+							<span class="u-icon u-icon-check"></span>已关注
+							<span class="interval">|</span>
+							<a class="cancel" href="#">取消</a>
+					</div>
+					<div class="num f-fl ">
+						粉丝&nbsp;&nbsp;45
+					</div>			
+				</div>-->
+
+			</div>
+			<ul class="nav f-fr">
+				<li><a  id="usrHello" >中国大学MOOC</a></li>
+			</ul>	
+		</div>
+	</div>
+	<!-- /top -->
+
+	<!-- sld -->
+	<div class="m-sld f-prz">
+		<ul class="imgs">
+<!--			<li><a href="http://open.163.com/" target="view_window" ><img  src="/static/images/banner/banner1.jpg"></a></li>
+			<li><a href="http://study.163.com/" target="view_window" ><img  src="/static/images/banner/banner2.jpg"></a></li>
+			<li><a href="http://www.icourse163.org/" target="view_window" ><img  src="/static/images/banner/banner3.jpg"></a></li>-->
+		</ul>
+		<div class="dot">
+			<span class="z-show"></span>
+			<span></span>
+			<span></span>
+		</div>
+	</div>
+	<!-- /sld -->
+
+	<!-- ftbd -->
+	<div class="m-ftbd ">
+		<!-- coursebd -->
+		<div class="m-coursebd f-cb g-box">
+				<div class="main f-cb">
+					<ul class="nav" id="coursebdNav">
+						<li><a href="#" id="ii10" name="10">直播视频</a></li>
+						<li><a href="#" id="ii20" name="20">回放视频</a></li>
+						<li><a href="#" id="ii30" name="30">点播视频</a></li>
+						<!--<li><a href="#" id="40" >我的直播</a></li>-->
+						<!--<li><a href="#" id="50" >我的点播</a></li>-->
+					</ul>
+					<div class="courselist f-cb" id = "courselistOuter">
+						<!-- <div class="suspend_course">
+							<div class="suspend_course_main f-cb">
+								<img class="logo" src="http://img2.ph.126.net/1Md8406dmo1TPHnYD67fdw==/6598260537750239978.jpg" alt="">
+								<div class="info">
+									<h2 class="tt">手绘画系列教程</h2>
+									<p class="pnum">57人在学</p>
+									<p class="autor">发布者：几分钟网</p>
+									<p class="classify">分类：手绘设计</p>
+								</div>
+							</div>
+							<p class="suspend_course_introduce">asdfsadf第三方飒沓阿斯蒂芬飒沓阿斯蒂芬飒沓12扼杀发大水阿斯蒂芬飒沓飒沓啊撒打发萨芬1额21额1额啥的	萨芬飒沓阿斯蒂芬撒打发第三方第三方程序中小城镇v阿萨德是打发312 四的方法倒萨给第三方倒萨阿萨德法师打发飒沓飒沓撒打发v阿萨德是打发312 四的方法倒萨给第三方倒萨阿萨德法师打发飒沓飒沓撒打发v阿萨德是打发312 四的方法倒萨给第三方倒萨阿萨德法师打发飒沓飒沓撒打发v阿萨德是打发312 四的方法倒萨给第三方倒萨阿萨德法师打发飒沓飒沓撒打发v阿萨德是打发312 四的方法倒萨给第三方倒萨阿萨德法师打发飒沓飒沓撒打发打发倒萨阿萨德阿斯蒂芬  撒旦范德萨发生大幅 撒旦法三大阿斯蒂芬</p>
+
+						</div> -->
+						<ul id="courselist" >
+
+						<script type="text/html" id="template-courselist">
+						{{each list}}
+						 <li style="position: relative">
+							 <div href="#" value="{{$value.videoID}}" type="{{$value.deleteTP}}" mode="{{$value.deleteMD}}" onclick="deletevideos(this)" group="{{$value.group}}">
+								 <img src="/static/images/delete.png" width="20px" style="position: absolute; right: 20px; cursor:pointer" >
+							 </div>
+							<a target="_blank" href="{{$value.videoUrl}}">
+								<div class="div_img"><img class="logo"  src="{{$value.picture}}" alt=""></div>
+								<div class="infoarea">			
+									<h1 class="tt">{{$value.name}}</h1>
+									<h1 class="writer">课程简介：{{$value.describe}}</h1>
+									<h2 class="writer">{{$value.hostName}}</h2>
+									<p class="price">{{$value.classState}}</p>
+									<p class="price">{{$value.startTime}}</p>
+									<p class="price">{{$value.endTime}}</p>
+								</div>
+							</a>
+						</li>
+						{{/each}}
+						</script>
+						<!--<div><span class="closeVideoModal" id="closeVideoModal"  >X</span></div>-->
+						</ul>
+						<!--<li>
+							<a href="javascript:void(0);">
+								<img class="logo" src="http://img2.ph.126.net/1Md8406dmo1TPHnYD67fdw==/6598260537750239978.jpg" alt="">
+								<div class="infoarea">
+									<h1 class="tt">混音全揭秘混音全揭秘混音全揭秘混音全揭秘</h1>
+									<h2 class="writer">音频棒</h2>
+									<p class="pnum">434</p>
+									<p class="price">￥800.00</p>								
+								</div>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);">
+								<img class="logo" src="http://img2.ph.126.net/1Md8406dmo1TPHnYD67fdw==/6598260537750239978.jpg" alt="">
+								<div class="infoarea">
+									<h1 class="tt">混音全揭秘混音全揭秘混音全揭秘混音全揭秘</h1>
+									<h2 class="writer">音频棒</h2>
+									<p class="pnum">434</p>
+									<p class="price">￥800.00</p>								
+								</div>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);">
+								<img class="logo" src="http://img2.ph.126.net/1Md8406dmo1TPHnYD67fdw==/6598260537750239978.jpg" alt="">
+								<div class="infoarea">
+									<h1 class="tt">混音全揭秘混音全揭秘混音全揭秘混音全揭秘</h1>
+									<h2 class="writer">音频棒</h2>
+									<p class="pnum">434</p>
+									<p class="price">￥800.00</p>								
+								</div>
+							</a>
+						</li>
+						<li>
+							<a href="javascript:void(0);">
+								<img class="logo" src="http://img2.ph.126.net/1Md8406dmo1TPHnYD67fdw==/6598260537750239978.jpg" alt="">
+								<div class="infoarea">
+									<h1 class="tt">混音全揭秘混音全揭秘混音全揭秘混音全揭秘</h1>
+									<h2 class="writer">音频棒</h2>
+									<p class="pnum">434</p>
+									<p class="price">￥800.00</p>								
+								</div>
+							</a>
+						</li> 
+					</ul-->
+
+					</div>
+					
+<!--					<ul class="m-page f-fr page-1">
+						<li><a href="javascript:void(0);" class="pre z-sel ">&lt;</a></li>
+						<li><a href="javascript:void(0);" class="z-crl" >1</a></li>
+						<li><a href="javascript:void(0);">2</a></li>
+						<li><a href="javascript:void(0);">3</a></li>
+						<li><a href="javascript:void(0);">4</a></li>
+						<li><a href="javascript:void(0);">5</a></li>
+						<li><a href="javascript:void(0);" class="next z-sel">&gt;</a></li>
+					</ul>-->
+				</div>				
+				<div class="side" id="sideNav">
+					
+					<div class="m-jsbox" id="teacherSide">
+						<div class="tt">
+							<h1>加入房间</h1>
+						</div>
+						<div class="bd">
+							<div class="searchBlock">
+					 			<input type="text" placeholder="房间码" id="loginRoomID" name="loginRoomID" class="searchText">
+					            <!--a href="javascript:void(0);" class="submit" id="loginSubmit">登录</a -->
+								<input type="submit" value="提交" id="loginRoomSubmit" class="searchBtn">
+							</div>
+						</div>	
+					</div>
+					<div class="b-20" id="blank_1"></div>
+					
+					<div  id="createRoomList">					
+					<script type="text/html" id="template-createRoom">
+					{{each list}}	
+					<div class="m-jsbox" ">		
+						<div class="tt">
+							<h1>创建房间</h1>
+						</div>
+						<div class="bd">
+							<h3 class="c-name">课程名</h3>
+							<input type="text" placeholder="课程名" id="className" class="videoInput">
+							<h3 class="c-inro">简要介绍</h3>
+							<input type="textarea" placeholder="简要介绍" id="classIntro" class="videoInput">
+							<h3 class="c-btime">开始时间</h3>
+							<input type="datetime-local" placeholder="开始时间" id="beginTime" class="videoInput">
+							<h3 class="c-etime">结束时间</h3>
+							<input type="datetime-local" placeholder="结束时间" id="endTime" class="videoInput">
+							<h3 class="c-file" style="display: inline;">上传课程封面图片文件 </h3>
+							<div class="button upload-wrapper add-file-button" style="display: inline;">
+								<input type="file" id="classPic" name="file">
+								上传
+							</div>
+							
+							<!--h3 class="c-type">请选择课程类型（单选）</h3>
+							<div id="classTypeId">
+								<label><input name="classTypeName" type="radio" value="一对一课" />一对一课 </label> </br>
+								<label><input name="classTypeName" type="radio" value="普通大班课" checked="checked"/>普通大班课 </label> </br>
+								<label><input name="classTypeName" type="radio" value="互动小班课" />互动小班课 </label> </br>
+							</div-->
+							<br>
+							<a><div class="button" id="createRoomSubmit" style="width: 175px; text-align: center; margin-top: 20px"> 提交</div></a>
+						</div>
+					</div>
+					<div class="b-20" id="blank_2"></div>
+					{{/each}}
+					</script>
+					</div>
+
+				
+				
+					<div id="uploadList">
+					<script type="text/html" id="template-upload">
+					{{each list}}	
+					<div class="m-jsbox" >
+						<div class="tt">
+							<h1>上传视频</h1>
+						</div>
+						<div class="bd" style="height: 180px">
+							<div class="bjy-demo">
+								<label>请输入视频标题（必填）：</label></br>
+								<input type="text" id="name" class="videoInput"></br>
+								<label>请输入视频简介（必填）：</label></br>
+								<input type="text" id="introduction" class="videoInput"></br>
+								<div class="button upload-wrapper add-file-button">
+									<input type="file" id="uploadVideo">
+									上传
+								</div>
+					
+								<div class="button btn-stop">
+									停止
+								</div>
+								
+								<div class="button btn-continue">
+									继续
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="b-20 id=blank_3"></div>
+					{{/each}}
+					</script>
+					</div>
+
+					
+					
+					<!--<div class="m-jsbox m-jsbox-1" >-->
+						<!--<div class="tt">-->
+							<!--<h1>热门排行</h1>-->
+						<!--</div>-->
+						<!--<div class="bd f-csp" >-->
+							<!--<ul class="f-cbli m-rmph" id="rmph">-->
+								<!--&lt;!&ndash; <li>-->
+									<!--<img src="http://img2.ph.126.net/80El3bguuXn3r3HMg4kbUw==/6630361879235664977.jpg">-->
+									<!--<h2>前端从入门到精通Frist</h2>-->
+									<!--<span>69</span>-->
+								<!--</li>-->
+								<!--<li>-->
+									<!--<img src="http://img2.ph.126.net/80El3bguuXn3r3HMg4kbUw==/6630361879235664977.jpg">-->
+									<!--<h2>前端从入门到精通</h2>-->
+									<!--<span>69</span>-->
+								<!--</li>-->
+								<!--<li>-->
+									<!--<img src="http://img2.ph.126.net/80El3bguuXn3r3HMg4kbUw==/6630361879235664977.jpg">-->
+									<!--<h2>前端从入门到精通</h2>-->
+									<!--<span>69</span>-->
+								<!--</li>-->
+								<!--<li>-->
+									<!--<img src="http://img2.ph.126.net/80El3bguuXn3r3HMg4kbUw==/6630361879235664977.jpg">-->
+									<!--<h2>前端从入门到精通</h2>-->
+									<!--<span>69</span>-->
+								<!--</li>-->
+								<!--<li>-->
+									<!--<img src="http://img2.ph.126.net/80El3bguuXn3r3HMg4kbUw==/6630361879235664977.jpg">-->
+									<!--<h2>前端从入门到精通</h2>-->
+									<!--<span>69</span>-->
+								<!--</li>-->
+								<!--<li>-->
+									<!--<img src="http://img2.ph.126.net/80El3bguuXn3r3HMg4kbUw==/6630361879235664977.jpg">-->
+									<!--<h2>前端从入门到精通</h2>-->
+									<!--<span>69</span>-->
+								<!--</li>-->
+								<!--<li>-->
+									<!--<img src="http://img2.ph.126.net/80El3bguuXn3r3HMg4kbUw==/6630361879235664977.jpg">-->
+									<!--<h2>前端从入门到精通</h2>-->
+									<!--<span>69</span>-->
+								<!--</li>-->
+								<!--<li>-->
+									<!--<img src="http://img2.ph.126.net/80El3bguuXn3r3HMg4kbUw==/6630361879235664977.jpg">-->
+									<!--<h2>前端从入门到精通</h2>-->
+									<!--<span>69</span>-->
+								<!--</li>-->
+								<!--<li>-->
+									<!--<img src="http://img2.ph.126.net/80El3bguuXn3r3HMg4kbUw==/6630361879235664977.jpg">-->
+									<!--<h2>前端从入门到精通</h2>-->
+									<!--<span>69</span>-->
+								<!--</li>-->
+								<!--<li>-->
+									<!--<img src="http://img2.ph.126.net/80El3bguuXn3r3HMg4kbUw==/6630361879235664977.jpg">-->
+									<!--<h2>前端从入门到精通</h2>-->
+									<!--<span>69</span>-->
+								<!--</li>-->
+								<!--<li>-->
+									<!--<img src="http://img2.ph.126.net/80El3bguuXn3r3HMg4kbUw==/6630361879235664977.jpg">-->
+									<!--<h2>前端从入门到精通</h2>-->
+									<!--<span>69</span>-->
+								<!--</li> &ndash;&gt;-->
+							<!--</ul>-->
+						<!--</div>-->
+					<!--</div>-->
+				</div>
+			</div>
+		<!-- /coursebd -->
+	</div>
+	<!-- ftbd -->
+	
+	<div class="g-ft">
+		<!-- ft -->
+		<div class="m-ft g-box">
+				<!--<div class="wrap">-->
+					<!--<div class="logoinfo">-->
+						<!--<img src="/static/images/icons/netnease-edu-logo.png">-->
+						<!--<p class="beian">©2014 icourse163.org 浙ICP备08114786号-1</p>-->
+						<!--<p class="beian2">icourses.cn 京ICP备12020869号-2 京公网安备110102000459-2</p>-->
+					<!--</div>-->
+					<!--<div class="info info-1">-->
+						<!--<h2>友情链接：</h2>-->
+						<!--<ul>-->
+							<!--<li><a href="http://open.163.com/" target="view_window" >网易公开课</a></li>-->
+							<!--<li><a href="http://study.163.com/" target="view_window" >网易云课堂</a></li>-->
+							<!--<li><a href="http://www.icourse163.org/" target="view_window" >中国大学MOOC</a></li>-->
+						<!--</ul>-->
+					<!--</div>-->
+
+					<!--<div class="info info-2">-->
+						<!--<h2>我们：</h2>-->
+						<!--<ul>-->
+							<!--<li><a href="#">关于</a></li>-->
+							<!--<li><a href="#">联系</a></li>-->
+							<!--<li class="weibo"><a href="#">关注</a></li>-->
+						<!--</ul>-->
+					<!--</div>-->
+
+					<!--<div class="info info-3">-->
+						<!--<h2>更多：</h2>-->
+						<!--<ul>-->
+							<!--<li><a href="#">常见问题</a></li>-->
+							<!--<li><a href="#">意见反馈</a></li>-->
+						<!--</ul>-->
+					<!--</div>-->
+				<!--</div>-->
+		</div>
+		<!-- /ft -->		
+	</div>
+
+</body>
+</html>

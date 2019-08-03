@@ -14,4 +14,29 @@ class UsersInfo extends Model{
         return $rolemap[$role];
     }
 
+    public function myCreatedLives()
+    {
+        return $this->hasMany('LiveNow', 'owner_id', 'user_id');
+    }
+
+    public function myCreatedLives_past()
+    {
+        return $this->hasMany('LivePast', 'owner_id', 'user_id');
+    }
+
+    public function myCreatedVideos()
+    {
+        return $this->hasMany('Video', 'owner_id', 'user_id');
+    }
+
+    public function myJoinedLives()
+    {
+        return $this->belongsToMany('LiveNow', 'users_join_lives', 'room_id', 'user_id');
+    }
+
+    public function myJoinedVideos()
+    {
+        return $this->belongsToMany('Video', 'users_join_videos', 'video_id', 'user_id');
+    }
+
 }
